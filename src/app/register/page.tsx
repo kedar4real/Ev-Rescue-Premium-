@@ -127,8 +127,32 @@ export default function RegisterPage() {
     }
   }
 
-  const handleSocialRegister = (provider: string) => {
-    notify.info('Social Registration', `${provider} registration coming soon!`)
+  const { signInWithGoogle, signInWithFacebook, signInWithTwitter } = useAuth()
+
+  const handleSocialRegister = async (provider: string) => {
+    try {
+      setIsLoading(true)
+      switch (provider) {
+        case 'google':
+          await signInWithGoogle()
+          notify.success('Registration Successful', 'Welcome to EV Rescue Premium!')
+          break
+        case 'facebook':
+          await signInWithFacebook()
+          notify.success('Registration Successful', 'Welcome to EV Rescue Premium!')
+          break
+        case 'twitter':
+          await signInWithTwitter()
+          notify.success('Registration Successful', 'Welcome to EV Rescue Premium!')
+          break
+        default:
+          notify.info('Social Registration', `${provider} registration coming soon!`)
+      }
+    } catch (error) {
+      notify.error('Social Registration Failed', error instanceof Error ? error.message : 'Authentication failed. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

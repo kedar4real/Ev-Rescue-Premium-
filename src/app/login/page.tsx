@@ -84,8 +84,32 @@ export default function LoginPage() {
     }
   }
 
-  const handleSocialLogin = (provider: string) => {
-    notify.info('Social Login', `${provider} login coming soon!`)
+  const { signInWithGoogle, signInWithFacebook, signInWithTwitter } = useAuth()
+
+  const handleSocialLogin = async (provider: string) => {
+    try {
+      setIsLoading(true)
+      switch (provider) {
+        case 'google':
+          await signInWithGoogle()
+          notify.success('Login Successful', 'Welcome to EV Rescue Premium!')
+          break
+        case 'facebook':
+          await signInWithFacebook()
+          notify.success('Login Successful', 'Welcome to EV Rescue Premium!')
+          break
+        case 'twitter':
+          await signInWithTwitter()
+          notify.success('Login Successful', 'Welcome to EV Rescue Premium!')
+          break
+        default:
+          notify.info('Social Login', `${provider} login coming soon!`)
+      }
+    } catch (error) {
+      notify.error('Social Login Failed', error instanceof Error ? error.message : 'Authentication failed. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
