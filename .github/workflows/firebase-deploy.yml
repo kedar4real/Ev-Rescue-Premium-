@@ -1,44 +1,47 @@
-name: Deploy to Firebase Hosting (DISABLED - Using Vercel)
-on:
-  # Disabled - using Vercel for deployment
-  # push:
-  #   branches:
-  #     - main
-  # pull_request:
-  #   branches:
-  #     - main
+# DISABLED: Deploy to Firebase Hosting (Using Vercel instead)
+# This workflow is disabled because we're using Vercel for deployment
+# which provides better Next.js support and automatic deployments
 
-jobs:
-  build_and_deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-      
-      - name: Build
-        run: npm run build
-        env:
-          NEXT_PUBLIC_FIREBASE_API_KEY: "AIzaSyBQXPhsNyuXdAg6CDBhKnBIE41rQTnCPh4"
-          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "ev-rescue-premium.firebaseapp.com"
-          NEXT_PUBLIC_FIREBASE_PROJECT_ID: "ev-rescue-premium"
-          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "ev-rescue-premium.firebasestorage.app"
-          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "1036918405847"
-          NEXT_PUBLIC_FIREBASE_APP_ID: "1:1036918405847:web:879a517668cf00ee6cce92"
-      
-      - name: Deploy to Firebase
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          projectId: ev-rescue-premium
-          channelId: live
+# name: Deploy to Firebase Hosting (DISABLED - Using Vercel)
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#   build_and_deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '18'
+#           cache: 'npm'
+#       
+#       - name: Install dependencies
+#         run: npm ci
+#       
+#       - name: Install Firebase CLI
+#         run: npm install -g firebase-tools
+#       
+#       - name: Build
+#         run: npm run build
+#         env:
+#           NEXT_PUBLIC_FIREBASE_API_KEY: "AIzaSyBQXPhsNyuXdAg6CDBhKnBIE41rQTnCPh4"
+#           NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "ev-rescue-premium.firebaseapp.com"
+#           NEXT_PUBLIC_FIREBASE_PROJECT_ID: "ev-rescue-premium"
+#           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "ev-rescue-premium.firebasestorage.app"
+#           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "1036918405847"
+#           NEXT_PUBLIC_FIREBASE_APP_ID: "1:1036918405847:web:879a517668cf00ee6cce92"
+#       
+#       - name: Deploy to Firebase
+#         uses: FirebaseExtended/action-hosting-deploy@v0
+#         with:
+#           repoToken: '${{ secrets.GITHUB_TOKEN }}'
+#           projectId: ev-rescue-premium
+#           channelId: live
