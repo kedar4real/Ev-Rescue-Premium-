@@ -1,11 +1,12 @@
-name: Deploy to Firebase Hosting
+name: Deploy to Firebase Hosting (DISABLED - Using Vercel)
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  # Disabled - using Vercel for deployment
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
 
 jobs:
   build_and_deploy:
