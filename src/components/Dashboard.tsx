@@ -4,7 +4,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
-import { MapPin, AlertCircle, Truck, Battery, Clock, Navigation, ArrowRight, Zap, Shield, TrendingUp, Users, Car, Bike, AlertTriangle, CheckCircle } from 'lucide-react';
+import { 
+  MapPinIcon as MapPin,
+  ExclamationCircleIcon as AlertCircle,
+  TruckIcon as Truck,
+  Battery0Icon as Battery,
+  ClockIcon as Clock,
+  MapIcon as Navigation,
+  ArrowRightIcon as ArrowRight,
+  BoltIcon as Zap,
+  ShieldCheckIcon as Shield,
+  ChartBarIcon as TrendingUp,
+  UsersIcon as Users,
+  TruckIcon as Car,
+  TruckIcon as Bike,
+  ExclamationTriangleIcon as AlertTriangle,
+  CheckCircleIcon as CheckCircle
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useAuth } from '../hooks/useAuth';
 

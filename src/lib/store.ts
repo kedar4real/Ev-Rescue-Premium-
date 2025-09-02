@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { User, EmergencyRequest, ServiceProvider, Notification } from '@/types'
+import { User, EmergencyRequest, ServiceProvider, Notification } from './database'
 
 interface AppState {
   // User state

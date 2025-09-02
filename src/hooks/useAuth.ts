@@ -9,7 +9,7 @@ import {
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { auth, db } from '../lib/firebase'
 import { useAppStore } from '../lib/store'
-import { User } from '../types'
+import { User } from '../lib/database'
 
 export function useAuth() {
   const [loading, setLoading] = useState(true)
@@ -28,18 +28,37 @@ export function useAuth() {
             const userData: User = {
               id: firebaseUser.uid,
               email: firebaseUser.email || '',
-              name: firebaseUser.displayName || '',
+              firstName: firebaseUser.displayName?.split(' ')[0] || '',
+              lastName: firebaseUser.displayName?.split(' ')[1] || '',
               phone: '',
               role: 'user',
               vehicleType: 'car',
               vehicleModel: '',
               batteryCapacity: 50,
-              currentLocation: { lat: 0, lng: 0, address: '' },
+              currentLocation: { 
+                lat: 0, 
+                lng: 0, 
+                address: '',
+                lastUpdated: new Date() as any
+              },
               isProvider: false,
               rating: 0,
               totalRescues: 0,
-              createdAt: new Date(),
-              updatedAt: new Date()
+              subscription: {
+                plan: 'basic',
+                status: 'active',
+                startDate: new Date() as any,
+                endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) as any,
+                requestsUsed: 0,
+                requestsLimit: 2
+              },
+              preferences: {
+                notifications: true,
+                locationTracking: true,
+                emergencyContacts: []
+              },
+              createdAt: new Date() as any,
+              updatedAt: new Date() as any
             }
             await setDoc(doc(db, 'users', firebaseUser.uid), userData)
             setUser(userData)
@@ -74,22 +93,41 @@ export function useAuth() {
       const newUser: User = {
         id: result.user.uid,
         email,
-        name: userData.name || '',
+        firstName: userData.firstName || '',
+        lastName: userData.lastName || '',
         phone: userData.phone || '',
         role: 'user',
         vehicleType: userData.vehicleType || 'car',
         vehicleModel: userData.vehicleModel || '',
         batteryCapacity: userData.batteryCapacity || 50,
-        currentLocation: { lat: 0, lng: 0, address: '' },
+        currentLocation: { 
+          lat: 0, 
+          lng: 0, 
+          address: '',
+          lastUpdated: new Date() as any
+        },
         isProvider: false,
         rating: 0,
         totalRescues: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        subscription: {
+          plan: 'basic',
+          status: 'active',
+          startDate: new Date() as any,
+          endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) as any,
+          requestsUsed: 0,
+          requestsLimit: 2
+        },
+        preferences: {
+          notifications: true,
+          locationTracking: true,
+          emergencyContacts: []
+        },
+        createdAt: new Date() as any,
+        updatedAt: new Date() as any
       }
       
       await setDoc(doc(db, 'users', result.user.uid), newUser)
-      await updateProfile(result.user, { displayName: userData.name })
+      await updateProfile(result.user, { displayName: `${userData.firstName || ''} ${userData.lastName || ''}`.trim() })
       
       return result.user
     } catch (error: unknown) {

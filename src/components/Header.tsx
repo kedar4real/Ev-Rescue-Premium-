@@ -4,18 +4,18 @@ import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { 
-  Zap, 
-  Menu, 
-  Bell, 
-  User, 
-  MapPin, 
-  AlertCircle, 
-  Truck, 
-  Battery,
-  LogOut,
-  Settings,
-  ChevronDown
-} from 'lucide-react'
+  BoltIcon as Zap,
+  Bars3Icon as Menu,
+  BellIcon as Bell,
+  UserIcon as User,
+  MapPinIcon as MapPin,
+  ExclamationCircleIcon as AlertCircle,
+  TruckIcon as Truck,
+  Battery0Icon as Battery,
+  ArrowRightOnRectangleIcon as LogOut,
+  Cog6ToothIcon as Settings,
+  ChevronDownIcon as ChevronDown
+} from '@heroicons/react/24/outline'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'

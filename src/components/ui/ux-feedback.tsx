@@ -21,7 +21,7 @@ export function UXFeedbackProvider({ children }: { children: React.ReactNode }) 
 export function useUXFeedback() {
   const toast = useToast()
   const loadingOverlay = useLoadingOverlay()
-  const [progressSteps, setProgressSteps] = useState<any[]>([])
+  const [progressSteps, setProgressSteps] = useState<{ id: string; title: string; status: 'pending' | 'active' | 'completed' | 'error' }[]>([])
   const [currentProgressStep, setCurrentProgressStep] = useState<string>('')
 
   // Emergency Request Flow

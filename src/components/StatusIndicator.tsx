@@ -1,7 +1,14 @@
 'use client'
 
 import { Badge } from './ui/badge'
-import { CheckCircle, Clock, AlertTriangle, XCircle, Zap, Battery } from 'lucide-react'
+import { 
+  CheckCircleIcon as CheckCircle,
+  ClockIcon as Clock,
+  ExclamationTriangleIcon as AlertTriangle,
+  XCircleIcon as XCircle,
+  BoltIcon as Zap,
+  Battery0Icon as Battery
+} from '@heroicons/react/24/outline'
 
 interface StatusIndicatorProps {
   status: 'online' | 'offline' | 'busy' | 'available' | 'charging' | 'maintenance' | 'emergency'

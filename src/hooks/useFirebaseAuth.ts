@@ -83,10 +83,10 @@ export function useFirebaseAuth() {
       const result = await signInWithEmailAndPassword(auth, email, password)
       await loadUserProfile(result.user.uid)
       return result
-    } catch (error: any) {
+    } catch (error: unknown) {
       const authError: AuthError = {
-        code: error.code,
-        message: getErrorMessage(error.code)
+        code: (error as any).code,
+        message: getErrorMessage((error as any).code)
       }
       setError(authError)
       throw authError
@@ -145,10 +145,10 @@ export function useFirebaseAuth() {
       setUserProfile(userProfile)
 
       return result
-    } catch (error: any) {
+    } catch (error: unknown) {
       const authError: AuthError = {
-        code: error.code,
-        message: getErrorMessage(error.code)
+        code: (error as any).code,
+        message: getErrorMessage((error as any).code)
       }
       setError(authError)
       throw authError
@@ -166,10 +166,10 @@ export function useFirebaseAuth() {
       const result = await signInWithPopup(auth, provider)
       await loadUserProfile(result.user.uid)
       return result
-    } catch (error: any) {
+    } catch (error: unknown) {
       const authError: AuthError = {
-        code: error.code,
-        message: getErrorMessage(error.code)
+        code: (error as any).code,
+        message: getErrorMessage((error as any).code)
       }
       setError(authError)
       throw authError
@@ -187,10 +187,10 @@ export function useFirebaseAuth() {
       const result = await signInWithPopup(auth, provider)
       await loadUserProfile(result.user.uid)
       return result
-    } catch (error: any) {
+    } catch (error: unknown) {
       const authError: AuthError = {
-        code: error.code,
-        message: getErrorMessage(error.code)
+        code: (error as any).code,
+        message: getErrorMessage((error as any).code)
       }
       setError(authError)
       throw authError
@@ -208,10 +208,10 @@ export function useFirebaseAuth() {
       const result = await signInWithPopup(auth, provider)
       await loadUserProfile(result.user.uid)
       return result
-    } catch (error: any) {
+    } catch (error: unknown) {
       const authError: AuthError = {
-        code: error.code,
-        message: getErrorMessage(error.code)
+        code: (error as any).code,
+        message: getErrorMessage((error as any).code)
       }
       setError(authError)
       throw authError
@@ -226,10 +226,10 @@ export function useFirebaseAuth() {
       setError(null)
       await signOut(auth)
       setUserProfile(null)
-    } catch (error: any) {
+    } catch (error: unknown) {
       const authError: AuthError = {
-        code: error.code,
-        message: getErrorMessage(error.code)
+        code: (error as any).code,
+        message: getErrorMessage((error as any).code)
       }
       setError(authError)
       throw authError
@@ -241,10 +241,10 @@ export function useFirebaseAuth() {
     try {
       setError(null)
       await sendPasswordResetEmail(auth, email)
-    } catch (error: any) {
+    } catch (error: unknown) {
       const authError: AuthError = {
-        code: error.code,
-        message: getErrorMessage(error.code)
+        code: (error as any).code,
+        message: getErrorMessage((error as any).code)
       }
       setError(authError)
       throw authError
@@ -260,7 +260,7 @@ export function useFirebaseAuth() {
       const updatedProfile = { ...userProfile, ...updates }
       await setDoc(doc(db, 'users', user.uid), updatedProfile)
       setUserProfile(updatedProfile as UserProfile)
-    } catch (error: any) {
+    } catch (error: unknown) {
       const authError: AuthError = {
         code: 'profile-update-error',
         message: 'Failed to update profile'

@@ -8,7 +8,21 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { notify } from '../ui/notification';
-import { AlertCircle, Phone, MapPin, Clock, Wrench, Battery, Truck, CheckCircle, ArrowRight, Shield, Zap, Car, AlertTriangle } from 'lucide-react';
+import { 
+  ExclamationCircleIcon as AlertCircle,
+  PhoneIcon as Phone,
+  MapPinIcon as MapPin,
+  ClockIcon as Clock,
+  WrenchScrewdriverIcon as Wrench,
+  Battery0Icon as Battery,
+  TruckIcon as Truck,
+  CheckCircleIcon as CheckCircle,
+  ArrowRightIcon as ArrowRight,
+  ShieldCheckIcon as Shield,
+  BoltIcon as Zap,
+  TruckIcon as Car,
+  ExclamationTriangleIcon as AlertTriangle
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Textarea } from '../ui/textarea';

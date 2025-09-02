@@ -136,7 +136,7 @@ export default function RazorpayPayment({
     }
   }
 
-  const verifyPayment = async (paymentData: any) => {
+  const verifyPayment = async (paymentData: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
     try {
       const response = await fetch('/api/razorpay/verify-payment', {
         method: 'POST',
@@ -217,7 +217,7 @@ export default function RazorpayPayment({
       }
 
       // Initialize Razorpay
-      const RazorpayConstructor = (window as any).Razorpay
+      const RazorpayConstructor = (window as { Razorpay: any }).Razorpay
       const razorpay = new RazorpayConstructor(options)
       razorpay.open()
 

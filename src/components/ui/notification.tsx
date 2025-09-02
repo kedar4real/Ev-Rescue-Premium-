@@ -2,7 +2,13 @@
 
 import React, { useState, useEffect } from 'react'
 import { Button } from './button'
-import { CheckCircle, XCircle, AlertTriangle, Info, X } from 'lucide-react'
+import { 
+  CheckCircleIcon as CheckCircle,
+  XCircleIcon as XCircle,
+  ExclamationTriangleIcon as AlertTriangle,
+  InformationCircleIcon as Info,
+  XMarkIcon as X
+} from '@heroicons/react/24/outline'
 
 interface NotificationMethods {
   success: (title: string, message?: string, duration?: number) => void

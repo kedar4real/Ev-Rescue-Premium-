@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
-import { Check } from "lucide-react"
+import { CheckIcon as Check } from "@heroicons/react/24/outline"
 import { cn } from "../../lib/utils"
 
 const Checkbox = React.forwardRef<

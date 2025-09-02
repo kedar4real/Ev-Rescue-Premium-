@@ -8,20 +8,20 @@ import { ScrollArea } from "./scroll-area"
 import Link from "next/link"
 import { useSidebar } from "../providers/SidebarProvider"
 import { 
-  Home, 
-  MapPin, 
-  AlertTriangle, 
-  Truck, 
-  MessageSquare, 
-  Settings, 
-  User, 
-  BarChart3, 
-  History, 
-  Car, 
-  Shield,
-  Menu,
-  X
-} from "lucide-react"
+  HomeIcon as Home,
+  MapPinIcon as MapPin,
+  ExclamationTriangleIcon as AlertTriangle,
+  TruckIcon as Truck,
+  ChatBubbleLeftRightIcon as MessageSquare,
+  Cog6ToothIcon as Settings,
+  UserIcon as User,
+  ChartBarIcon as BarChart3,
+  ClockIcon as History,
+  TruckIcon as Car,
+  ShieldCheckIcon as Shield,
+  Bars3Icon as Menu,
+  XMarkIcon as X
+} from "@heroicons/react/24/outline"
 
 const sidebarVariants = cva(
   "group relative flex h-full flex-col gap-4 border-r bg-background p-4 transition-all duration-500 ease-in-out z-10",

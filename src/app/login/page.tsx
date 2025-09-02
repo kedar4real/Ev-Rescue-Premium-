@@ -8,19 +8,18 @@ import { Label } from '../../components/ui/label'
 import { Checkbox } from '../../components/ui/checkbox'
 import { Separator } from '../../components/ui/separator'
 import { 
-  Eye, 
-  EyeOff, 
-  Mail, 
-  Lock, 
-  Github, 
-  Chrome,
-  AlertCircle,
-  CheckCircle,
-  Zap,
-  Shield,
-  Car,
-  Battery
-} from 'lucide-react'
+  EyeIcon as Eye,
+  EyeSlashIcon as EyeOff,
+  EnvelopeIcon as Mail,
+  LockClosedIcon as Lock,
+  CodeBracketIcon,
+  ExclamationCircleIcon as AlertCircle,
+  CheckCircleIcon as CheckCircle,
+  BoltIcon as Zap,
+  ShieldCheckIcon as Shield,
+  TruckIcon as Car,
+  Battery0Icon as Battery
+} from '@heroicons/react/24/outline'
 import { notify } from '../../components/ui/notification'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -251,7 +250,7 @@ export default function LoginPage() {
                   onClick={() => handleSocialLogin('Google')}
                   className="bg-gray-800 border-gray-600 text-white hover:bg-gray-700 hover:border-gray-500"
                 >
-                  <Chrome className="h-4 w-4 mr-2" />
+                  <Zap className="h-4 w-4 mr-2" />
                   Google
                 </Button>
                 <Button
@@ -259,7 +258,7 @@ export default function LoginPage() {
                   onClick={() => handleSocialLogin('GitHub')}
                   className="bg-gray-800 border-gray-600 text-white hover:bg-gray-700 hover:border-gray-500"
                 >
-                  <Github className="h-4 w-4 mr-2" />
+                  <CodeBracketIcon className="h-4 w-4 mr-2" />
                   GitHub
                 </Button>
               </div>

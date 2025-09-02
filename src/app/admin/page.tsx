@@ -141,7 +141,7 @@ export default function AdminDashboard() {
             <div className="flex items-center gap-6">
               <div className="text-right">
                 <div className="text-sm text-gray-400 font-medium">Logged in as</div>
-                <div className="font-semibold text-white text-lg">{user?.name || 'Admin'}</div>
+                <div className="font-semibold text-white text-lg">{user?.firstName || 'Admin'}</div>
               </div>
               <Button 
                 variant="outline" 
@@ -491,10 +491,8 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent className="px-8 pb-8">
                 <Map 
-                  onLocationSelect={handleLocationSelect}
-                  initialLocation={selectedLocation}
-                  height="600px"
-                  showSearch={false}
+                  stations={[]}
+                  userLocation={selectedLocation}
                 />
               </CardContent>
             </Card>

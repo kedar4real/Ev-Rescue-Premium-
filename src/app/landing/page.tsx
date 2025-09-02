@@ -228,7 +228,8 @@ export default function LandingPage() {
                       <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
                     ))}
                   </div>
-                  <p className="text-gray-300 italic">"{testimonial.content}"</p>
+                  {/* eslint-disable-next-line react/no-unescaped-entities */}
+                  <p className="text-gray-300 italic">&ldquo;{testimonial.content}&rdquo;</p>
                 </CardContent>
               </Card>
             ))}

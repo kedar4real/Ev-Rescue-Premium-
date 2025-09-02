@@ -39,8 +39,7 @@ export function Loading({
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          className={`w-2 h-2 bg-current rounded-full animate-pulse ${colorClasses[color]}`}
-          style={{ animationDelay: `${i * 0.2}s` }}
+          className={`w-2 h-2 bg-current rounded-full animate-pulse ${colorClasses[color]} animation-delay-${i * 2}`}
         ></div>
       ))}
     </div>
@@ -55,10 +54,9 @@ export function Loading({
       {[0, 1, 2, 3].map((i) => (
         <div
           key={i}
-          className={`w-1 bg-current animate-pulse ${colorClasses[color]}`}
+          className={`w-1 bg-current animate-pulse ${colorClasses[color]} animation-delay-${i}`}
           style={{ 
             height: '100%',
-            animationDelay: `${i * 0.1}s`,
             animationDuration: '1s'
           }}
         ></div>

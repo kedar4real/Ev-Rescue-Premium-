@@ -2,7 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { Card, CardContent } from './card'
-import { CheckCircle, Clock, AlertCircle, Loader2 } from 'lucide-react'
+import { 
+  CheckCircleIcon as CheckCircle,
+  ClockIcon as Clock,
+  ExclamationCircleIcon as AlertCircle,
+  ArrowPathIcon as Loader2
+} from '@heroicons/react/24/outline'
 
 interface ProgressStep {
   id: string

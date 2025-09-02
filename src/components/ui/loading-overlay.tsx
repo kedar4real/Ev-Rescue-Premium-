@@ -1,7 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { Loader2, CheckCircle, AlertCircle, X } from 'lucide-react'
+import { 
+  ArrowPathIcon as Loader2,
+  CheckCircleIcon as CheckCircle,
+  ExclamationCircleIcon as AlertCircle,
+  XMarkIcon as X
+} from '@heroicons/react/24/outline'
 
 interface LoadingOverlayProps {
   isVisible: boolean

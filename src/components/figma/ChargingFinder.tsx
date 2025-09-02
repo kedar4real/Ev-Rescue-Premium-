@@ -10,7 +10,20 @@ import { useAuth } from '../../hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { notify } from '../ui/notification';
 import { Map } from '../Map';
-import { MapPin, Navigation, Zap, Clock, DollarSign, Filter, Star, ArrowRight, Search, Battery, Wifi, Car } from 'lucide-react';
+import { 
+  MapPinIcon as MapPin,
+  MapIcon as Navigation,
+  BoltIcon as Zap,
+  ClockIcon as Clock,
+  CurrencyDollarIcon as DollarSign,
+  FunnelIcon as Filter,
+  StarIcon as Star,
+  ArrowRightIcon as ArrowRight,
+  MagnifyingGlassIcon as Search,
+  Battery0Icon as Battery,
+  WifiIcon as Wifi,
+  TruckIcon as Car
+} from '@heroicons/react/24/outline';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Separator } from '../ui/separator';
 import { ChargingStationSkeleton, PageHeaderSkeleton } from '../LoadingSkeleton';

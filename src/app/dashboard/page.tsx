@@ -4,24 +4,23 @@ import { useState, useEffect } from 'react'
 import { Button } from '../../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card'
 import { useAuth } from '../../hooks/useAuth'
-import { useEmergencyRequests } from '../../hooks/useEmergencyRequests'
+import { useRealTimeData } from '../../hooks/useRealTimeData'
 import { DashboardSkeleton, PageHeaderSkeleton, StatsGridSkeleton, TableSkeleton } from '../../components/LoadingSkeleton'
+import { analytics } from '../../lib/analytics'
 import Link from 'next/link'
 
 export default function DashboardPage() {
   const { user, isAuthenticated } = useAuth()
-  const { userRequests, nearbyProviders } = useEmergencyRequests()
+  const { userData, emergencyRequests, fleetVehicles, notifications, loading } = useRealTimeData()
   const [activeTab, setActiveTab] = useState('overview')
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Simulate loading time for better UX
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1500)
-
-    return () => clearTimeout(timer)
-  }, [])
+    // Track page view
+    analytics.trackPageView('/dashboard', {
+      userId: user?.id,
+      userRole: userData?.role
+    })
+  }, [user?.id, userData?.role])
 
   if (!isAuthenticated) {
     return (
@@ -43,7 +42,7 @@ export default function DashboardPage() {
     )
   }
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -69,7 +68,7 @@ export default function DashboardPage() {
         {/* Enhanced Header */}
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-            Welcome back, {user?.name || 'User'}!
+            Welcome back, {userData?.firstName || user?.firstName || 'User'}!
           </h1>
           <p className="text-xl text-gray-300 font-light leading-relaxed">Manage your emergency charging requests and account</p>
         </div>
@@ -115,10 +114,30 @@ export default function DashboardPage() {
         {/* Enhanced Stats Overview */}
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           {[
-            { label: 'Total Requests', value: userRequests?.length || 0, icon: '📋', color: 'from-green-900/50 to-green-800/50 border-green-700/50' },
-            { label: 'Active Requests', value: userRequests?.filter(r => r.status === 'active').length || 0, icon: '🔄', color: 'from-yellow-900/50 to-yellow-800/50 border-yellow-700/50' },
-            { label: 'Completed', value: userRequests?.filter(r => r.status === 'completed').length || 0, icon: '✅', color: 'from-green-900/50 to-green-800/50 border-green-700/50' },
-            { label: 'Response Time', value: '30min', icon: '⏱️', color: 'from-purple-900/50 to-purple-800/50 border-purple-700/50' }
+            { 
+              label: 'Total Requests', 
+              value: emergencyRequests?.length || 0, 
+              icon: '📋', 
+              color: 'from-green-900/50 to-green-800/50 border-green-700/50' 
+            },
+            { 
+              label: 'Active Requests', 
+              value: emergencyRequests?.filter(r => ['pending', 'assigned', 'in_progress'].includes(r.status)).length || 0, 
+              icon: '🔄', 
+              color: 'from-yellow-900/50 to-yellow-800/50 border-yellow-700/50' 
+            },
+            { 
+              label: 'Completed', 
+              value: emergencyRequests?.filter(r => r.status === 'completed').length || 0, 
+              icon: '✅', 
+              color: 'from-green-900/50 to-green-800/50 border-green-700/50' 
+            },
+            { 
+              label: 'Subscription', 
+              value: userData?.subscription?.plan?.toUpperCase() || 'BASIC', 
+              icon: '💎', 
+              color: 'from-purple-900/50 to-purple-800/50 border-purple-700/50' 
+            }
           ].map((stat, index) => (
             <Card key={index} className="text-center bg-gray-900/40 border-gray-700/30 backdrop-blur-sm hover:bg-gray-800/50 hover:border-gray-600/50 transition-all duration-300 hover:scale-105">
               <CardContent className="p-8">

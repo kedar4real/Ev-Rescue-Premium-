@@ -1,7 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { X, CheckCircle, AlertCircle, Info, AlertTriangle, Loader2 } from 'lucide-react'
+import { 
+  XMarkIcon as X,
+  CheckCircleIcon as CheckCircle,
+  ExclamationCircleIcon as AlertCircle,
+  InformationCircleIcon as Info,
+  ExclamationTriangleIcon as AlertTriangle,
+  ArrowPathIcon as Loader2
+} from '@heroicons/react/24/outline'
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info' | 'loading'
 
