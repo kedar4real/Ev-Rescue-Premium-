@@ -1,5 +1,5 @@
 # 🚗 EV Rescue Premium - Emergency EV Charging Service
-<!-- Force deployment -->
+<!-- Force deployment - Latest commit: 9d1dbfd -->
 
 A comprehensive, state-of-the-art emergency electric vehicle charging service platform built with Next.js 15, React 19, and modern web technologies.
 
