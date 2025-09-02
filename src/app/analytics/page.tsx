@@ -50,7 +50,7 @@ export default function AnalyticsPage() {
       change: 12.5,
       changeType: 'increase',
       icon: BarChart3,
-      color: 'text-blue-500'
+      color: 'text-green-500'
     },
     {
       title: 'Response Time',
@@ -106,7 +106,7 @@ export default function AnalyticsPage() {
     switch (status) {
       case 'completed': return 'bg-green-500'
       case 'in-progress': return 'bg-yellow-500'
-      case 'scheduled': return 'bg-blue-500'
+      case 'scheduled': return 'bg-green-500'
       case 'active': return 'bg-green-500'
       case 'maintenance': return 'bg-orange-500'
       default: return 'bg-gray-500'
@@ -207,7 +207,7 @@ export default function AnalyticsPage() {
                       <div className="flex-1 flex items-center gap-2">
                         <div className="flex-1 bg-gray-700 rounded-full h-3">
                           <div 
-                            className="bg-blue-500 h-3 rounded-full" 
+                            className="bg-green-500 h-3 rounded-full" 
                             style={{ width: `${(data.emergency / Math.max(...serviceData.map(d => d.total))) * 100}%` }}
                           />
                         </div>
@@ -317,7 +317,7 @@ export default function AnalyticsPage() {
                           <div className="flex items-center gap-2">
                             <div className="w-20 bg-gray-700 rounded-full h-2">
                               <div 
-                                className="bg-blue-500 h-2 rounded-full" 
+                                className="bg-green-500 h-2 rounded-full" 
                                 style={{ width: `${vehicle.efficiency}%` }}
                               />
                             </div>
@@ -354,7 +354,7 @@ export default function AnalyticsPage() {
           
           <Card className="bg-gray-900 border-gray-700">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-blue-400 mb-2">24/7</div>
+              <div className="text-3xl font-bold text-green-400 mb-2">24/7</div>
               <div className="text-gray-400 text-sm">Availability</div>
             </CardContent>
           </Card>

@@ -20,7 +20,7 @@ export const IconShowcase: React.FC = () => {
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="flex flex-col items-center p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-            <Icon name="car" size={32} className="text-blue-500 mb-2" />
+            <Icon name="car" size={32} className="text-green-500 mb-2" />
             <span className="text-sm text-gray-600">Car</span>
           </div>
           <div className="flex flex-col items-center p-4 border rounded-lg hover:bg-gray-50 transition-colors">
@@ -41,12 +41,12 @@ export const IconShowcase: React.FC = () => {
       {/* React Icons */}
       <section className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <GiElectric size={24} className="text-blue-500" />
+          <GiElectric size={24} className="text-green-500" />
           React Icons
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="flex flex-col items-center p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-            <FaCar size={32} className="text-blue-500 mb-2" />
+            <FaCar size={32} className="text-green-500 mb-2" />
             <span className="text-sm text-gray-600">Car (FA)</span>
           </div>
           <div className="flex flex-col items-center p-4 border rounded-lg hover:bg-gray-50 transition-colors">
@@ -76,7 +76,7 @@ export const IconShowcase: React.FC = () => {
             <span className="text-sm text-gray-600">EV Car</span>
           </div>
           <div className="flex flex-col items-center p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-            <EVIcons.Truck className="w-8 h-8 text-blue-500 mb-2" />
+            <EVIcons.Truck className="w-8 h-8 text-green-500 mb-2" />
             <span className="text-sm text-gray-600">Truck</span>
           </div>
           <div className="flex flex-col items-center p-4 border rounded-lg hover:bg-gray-50 transition-colors">
@@ -115,13 +115,13 @@ export const IconShowcase: React.FC = () => {
           {/* Location Display */}
           <div className="flex items-center justify-between p-4 border rounded-lg">
             <div className="flex items-center gap-3">
-              <NavigationIcons.MapPin className="w-6 h-6 text-blue-500" />
+              <NavigationIcons.MapPin className="w-6 h-6 text-green-500" />
               <div>
                 <h3 className="font-medium text-gray-900">Current Location</h3>
                 <p className="text-sm text-gray-600">123 Main St, City, State</p>
               </div>
             </div>
-            <button className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+            <button className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
               <Icon name="navigation" className="w-5 h-5" />
               Navigate
             </button>
@@ -179,26 +179,26 @@ export const IconShowcase: React.FC = () => {
       </section>
 
       {/* Tips */}
-      <section className="bg-blue-50 rounded-lg p-6">
-        <h2 className="text-xl font-semibold text-blue-900 mb-4 flex items-center gap-2">
-          <Icon name="lightbulb" className="w-6 h-6 text-blue-500" />
+      <section className="bg-green-50 rounded-lg p-6">
+        <h2 className="text-xl font-semibold text-green-900 mb-4 flex items-center gap-2">
+          <Icon name="lightbulb" className="w-6 h-6 text-green-500" />
           Pro Tips
         </h2>
-        <ul className="space-y-2 text-blue-800">
+        <ul className="space-y-2 text-green-800">
           <li className="flex items-start gap-2">
-            <Icon name="checkCircle" className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+            <Icon name="checkCircle" className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
             <span>Use consistent icon sizes across your app (16px, 20px, 24px, 32px)</span>
           </li>
           <li className="flex items-start gap-2">
-            <Icon name="checkCircle" className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+            <Icon name="checkCircle" className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
             <span>Always include aria-label for accessibility when icons are decorative</span>
           </li>
           <li className="flex items-start gap-2">
-            <Icon name="checkCircle" className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+            <Icon name="checkCircle" className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
             <span>Use semantic colors (red for errors, green for success, blue for info)</span>
           </li>
           <li className="flex items-start gap-2">
-            <Icon name="checkCircle" className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+            <Icon name="checkCircle" className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
             <span>Consider lazy loading for large icon libraries to improve performance</span>
           </li>
         </ul>

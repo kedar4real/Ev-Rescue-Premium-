@@ -1,16 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '../../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card'
 import { useAuth } from '../../hooks/useAuth'
 import { useEmergencyRequests } from '../../hooks/useEmergencyRequests'
+import { DashboardSkeleton, PageHeaderSkeleton, StatsGridSkeleton, TableSkeleton } from '../../components/LoadingSkeleton'
 import Link from 'next/link'
 
 export default function DashboardPage() {
   const { user, isAuthenticated } = useAuth()
   const { userRequests, nearbyProviders } = useEmergencyRequests()
   const [activeTab, setActiveTab] = useState('overview')
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Simulate loading time for better UX
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1500)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   if (!isAuthenticated) {
     return (
@@ -22,7 +33,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <Link href="/login">
-              <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 rounded-2xl py-4 text-lg font-semibold">
+              <Button className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 border-0 rounded-2xl py-4 text-lg font-semibold">
                 Sign In
               </Button>
             </Link>
@@ -32,21 +43,33 @@ export default function DashboardPage() {
     )
   }
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <PageHeaderSkeleton />
+          <StatsGridSkeleton />
+          <DashboardSkeleton />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white py-12">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(59,130,246,0.08),transparent_40%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(168,85,247,0.08),transparent_40%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(34,197,94,0.08),transparent_40%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(22,163,74,0.08),transparent_40%)]"></div>
       
       {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500/8 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-24 h-24 bg-purple-500/8 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      <div className="absolute top-20 left-10 w-32 h-32 bg-green-500/8 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-24 h-24 bg-green-600/8 rounded-full blur-3xl animate-pulse delay-1000"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Enhanced Header */}
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-            Welcome back, {user?.name || 'User'}! 👋
+            Welcome back, {user?.name || 'User'}!
           </h1>
           <p className="text-xl text-gray-300 font-light leading-relaxed">Manage your emergency charging requests and account</p>
         </div>
@@ -92,7 +115,7 @@ export default function DashboardPage() {
         {/* Enhanced Stats Overview */}
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           {[
-            { label: 'Total Requests', value: userRequests?.length || 0, icon: '📋', color: 'from-blue-900/50 to-blue-800/50 border-blue-700/50' },
+            { label: 'Total Requests', value: userRequests?.length || 0, icon: '📋', color: 'from-green-900/50 to-green-800/50 border-green-700/50' },
             { label: 'Active Requests', value: userRequests?.filter(r => r.status === 'active').length || 0, icon: '🔄', color: 'from-yellow-900/50 to-yellow-800/50 border-yellow-700/50' },
             { label: 'Completed', value: userRequests?.filter(r => r.status === 'completed').length || 0, icon: '✅', color: 'from-green-900/50 to-green-800/50 border-green-700/50' },
             { label: 'Response Time', value: '30min', icon: '⏱️', color: 'from-purple-900/50 to-purple-800/50 border-purple-700/50' }
@@ -123,7 +146,7 @@ export default function DashboardPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`py-3 px-2 border-b-2 font-semibold text-base flex items-center gap-3 transition-all duration-300 ${
                     activeTab === tab.id
-                      ? 'border-blue-500 text-blue-400'
+                      ? 'border-green-500 text-green-400'
                       : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600/50'
                   }`}
                 >
@@ -151,7 +174,7 @@ export default function DashboardPage() {
                         <div className="flex items-center gap-5">
                           <div className={`w-4 h-4 rounded-full ${
                             request.status === 'pending' ? 'bg-yellow-500' :
-                            request.status === 'active' ? 'bg-blue-500' :
+                            request.status === 'active' ? 'bg-green-500' :
                             request.status === 'completed' ? 'bg-green-500' : 'bg-gray-500'
                           }`} />
                           <div>
@@ -197,7 +220,7 @@ export default function DashboardPage() {
                         <h4 className="font-semibold text-white text-lg">{request.vehicleType} - {request.vehicleModel}</h4>
                         <span className={`px-3 py-2 rounded-full text-sm font-semibold ${
                           request.status === 'pending' ? 'bg-yellow-900/50 text-yellow-200 border border-yellow-700/50' :
-                          request.status === 'active' ? 'bg-blue-900/50 text-blue-200 border border-blue-700/50' :
+                          request.status === 'active' ? 'bg-green-900/50 text-green-200 border border-green-700/50' :
                           request.status === 'completed' ? 'bg-green-900/50 text-green-200 border border-green-700/50' : 'bg-gray-700/50 text-gray-300 border border-gray-600/50'
                         }`}>
                           {request.status}

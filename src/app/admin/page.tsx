@@ -126,7 +126,7 @@ export default function AdminDashboard() {
       <div className="absolute inset-0 bg-radial-gradient-circle-at-30-30-rgba-59-130-246-0-08-transparent-40"></div>
       <div className="absolute inset-0 bg-radial-gradient-circle-at-70-70-rgba-168-85-247-0-08-transparent-40"></div>
       
-      <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500 bg-opacity-8 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute top-20 left-10 w-32 h-32 bg-green-500 bg-opacity-8 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-20 right-10 w-24 h-24 bg-purple-500 bg-opacity-8 rounded-full blur-3xl animate-pulse delay-1000"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -156,7 +156,7 @@ export default function AdminDashboard() {
 
         <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-6 mb-12">
           {[
-            { label: 'Total Users', value: stats.totalUsers, icon: '👥', color: 'from-blue-900 to-blue-800 border-blue-700' },
+            { label: 'Total Users', value: stats.totalUsers, icon: '👥', color: 'from-green-900 to-green-800 border-green-700' },
             { label: 'Total Requests', value: stats.totalRequests, icon: '📋', color: 'from-purple-900 to-purple-800 border-purple-700' },
             { label: 'Active', value: stats.activeRequests, icon: '🔄', color: 'from-yellow-900 to-yellow-800 border-yellow-700' },
             { label: 'Completed', value: stats.completedRequests, icon: '✅', color: 'from-green-900 to-green-800 border-green-700' },
@@ -184,7 +184,7 @@ export default function AdminDashboard() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`py-3 px-2 border-b-2 font-semibold text-base flex items-center gap-3 whitespace-nowrap transition-all duration-300 ${
                     activeTab === tab.id
-                      ? 'border-blue-500 text-blue-400'
+                      ? 'border-green-500 text-green-400'
                       : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600 hover:border-opacity-50'
                   }`}
                 >
@@ -214,7 +214,7 @@ export default function AdminDashboard() {
                     ].map((activity, index) => (
                       <div key={index} className="flex items-center gap-4 p-4 border border-gray-700 border-opacity-30 rounded-2xl bg-gray-800 bg-opacity-40 backdrop-blur-sm hover:bg-gray-700 hover:bg-opacity-50 transition-all duration-300">
                         <div className={`w-3 h-3 rounded-full ${
-                          activity.type === 'user' ? 'bg-blue-500' :
+                          activity.type === 'user' ? 'bg-green-500' :
                           activity.type === 'request' ? 'bg-red-500' :
                           activity.type === 'provider' ? 'bg-green-500' : 'bg-purple-500'
                         }`} />
@@ -235,7 +235,7 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent className="px-8 pb-8">
                   <div className="space-y-4">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 py-4 rounded-2xl font-semibold shadow-lg shadow-blue-500 shadow-opacity-30 transform hover:scale-105 transition-all duration-300">
+                    <Button className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 border-0 py-4 rounded-2xl font-semibold shadow-lg shadow-green-500 shadow-opacity-30 transform hover:scale-105 transition-all duration-300">
                       📊 Generate Report
                     </Button>
                     <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 border-0 py-4 rounded-2xl font-semibold shadow-lg shadow-green-500 shadow-opacity-30 transform hover:scale-105 transition-all duration-300">
@@ -292,7 +292,7 @@ export default function AdminDashboard() {
                         </td>
                         <td className="py-4 px-6">
                           <span className={`px-3 py-2 rounded-full text-sm font-semibold ${
-                            i === 1 ? 'bg-blue-900 bg-opacity-50 text-blue-200 border border-blue-700 border-opacity-50' :
+                            i === 1 ? 'bg-green-900 bg-opacity-50 text-green-200 border border-green-700 border-opacity-50' :
                             i === 2 ? 'bg-yellow-900 bg-opacity-50 text-yellow-200 border border-yellow-700 border-opacity-50' :
                             'bg-green-900 bg-opacity-50 text-green-200 border border-green-700 border-opacity-50'
                           }`}>
@@ -431,7 +431,7 @@ export default function AdminDashboard() {
                 <CardContent className="px-8 pb-8">
                   <div className="h-64 flex items-end justify-between gap-2">
                     {[65, 78, 92, 85, 103, 89, 76, 94, 87, 101, 95, 88].map((value, index) => (
-                      <div key={index} className="flex-1 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t transition-all duration-300 hover:scale-105" 
+                      <div key={index} className="flex-1 bg-gradient-to-t from-green-600 to-green-400 rounded-t transition-all duration-300 hover:scale-105" 
                            style={{ height: `${(value / 103) * 100}%` }}>
                       </div>
                     ))}

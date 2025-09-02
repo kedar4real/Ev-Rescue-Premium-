@@ -175,7 +175,7 @@ export default function SupportPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'open': return 'bg-blue-900/50 text-blue-200'
+      case 'open': return 'bg-green-900/50 text-green-200'
       case 'in_progress': return 'bg-yellow-900/50 text-yellow-200'
       case 'resolved': return 'bg-green-900/50 text-green-200'
       case 'closed': return 'bg-gray-900/50 text-gray-200'
@@ -216,14 +216,14 @@ export default function SupportPage() {
             </CardContent>
           </Card>
           
-          <Card className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border-blue-700/30 backdrop-blur-sm hover:scale-105 transition-all duration-300">
+          <Card className="bg-gradient-to-r from-green-900/20 to-green-800/20 border-green-700/30 backdrop-blur-sm hover:scale-105 transition-all duration-300">
             <CardContent className="p-6 text-center">
               <div className="text-4xl mb-4">💬</div>
               <h3 className="text-xl font-bold text-white mb-3">Live Chat</h3>
               <p className="text-gray-300 text-sm mb-4">Chat with support agents in real-time</p>
               <Button
                 onClick={handleLiveChat}
-                className="w-full bg-blue-600 hover:bg-blue-700 border-0"
+                className="w-full bg-green-600 hover:bg-green-700 border-0"
               >
                 Start Chat
               </Button>
@@ -255,12 +255,12 @@ export default function SupportPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search questions..."
-              className="flex-1 bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent rounded-xl"
+              className="flex-1 bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500/50 focus:border-transparent rounded-xl"
             />
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
+              className="px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white rounded-xl focus:ring-2 focus:ring-green-500/50 focus:border-transparent"
               aria-label="Filter FAQ by category"
               title="Filter FAQ by category"
             >
@@ -283,7 +283,7 @@ export default function SupportPage() {
                   <div className="mt-3">
                     <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
                       item.category === 'emergency' ? 'bg-red-900/50 text-red-200' :
-                      item.category === 'billing' ? 'bg-blue-900/50 text-blue-200' :
+                      item.category === 'billing' ? 'bg-green-900/50 text-green-200' :
                       item.category === 'technical' ? 'bg-purple-900/50 text-purple-200' :
                       'bg-gray-900/50 text-gray-200'
                     }`}>
@@ -348,7 +348,7 @@ export default function SupportPage() {
                         value={contactForm.name}
                         onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
                         placeholder="Your full name"
-                        className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent rounded-xl"
+                        className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500/50 focus:border-transparent rounded-xl"
                       />
                     </div>
                     <div>
@@ -358,7 +358,7 @@ export default function SupportPage() {
                         value={contactForm.email}
                         onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
                         placeholder="your@email.com"
-                        className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent rounded-xl"
+                        className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500/50 focus:border-transparent rounded-xl"
                       />
                     </div>
                   </div>
@@ -369,7 +369,7 @@ export default function SupportPage() {
                                              <select
                          value={contactForm.category}
                          onChange={(e) => setContactForm(prev => ({ ...prev, category: e.target.value as 'general' | 'technical' | 'billing' | 'emergency' }))}
-                         className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
+                         className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white rounded-xl focus:ring-2 focus:ring-green-500/50 focus:border-transparent"
                          aria-label="Select ticket category"
                          title="Select ticket category"
                        >
@@ -384,7 +384,7 @@ export default function SupportPage() {
                                              <select
                          value={contactForm.priority}
                          onChange={(e) => setContactForm(prev => ({ ...prev, priority: e.target.value as 'low' | 'medium' | 'high' | 'urgent' }))}
-                         className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
+                         className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white rounded-xl focus:ring-2 focus:ring-green-500/50 focus:border-transparent"
                          aria-label="Select ticket priority"
                          title="Select ticket priority"
                        >
@@ -403,7 +403,7 @@ export default function SupportPage() {
                       value={contactForm.subject}
                       onChange={(e) => setContactForm(prev => ({ ...prev, subject: e.target.value }))}
                       placeholder="Brief description of your issue"
-                      className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent rounded-xl"
+                      className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500/50 focus:border-transparent rounded-xl"
                     />
                   </div>
                   
@@ -414,7 +414,7 @@ export default function SupportPage() {
                       onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
                       placeholder="Please describe your issue in detail..."
                       rows={4}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent rounded-xl resize-none"
+                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500/50 focus:border-transparent rounded-xl resize-none"
                     />
                   </div>
                   
@@ -429,7 +429,7 @@ export default function SupportPage() {
                     </Button>
                     <Button
                       type="submit"
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 rounded-xl px-4 py-3 font-semibold shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300"
+                      className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 border-0 rounded-xl px-4 py-3 font-semibold shadow-lg shadow-green-500/30 transform hover:scale-105 transition-all duration-300"
                     >
                       Submit Ticket
                     </Button>
@@ -442,7 +442,7 @@ export default function SupportPage() {
 
         {/* Contact Information */}
         <div className="text-center">
-          <Card className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-700/30 backdrop-blur-sm">
+          <Card className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-700/30 backdrop-blur-sm">
             <CardContent className="p-12">
               <h2 className="text-3xl font-black text-white mb-6">Need More Help?</h2>
               <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">

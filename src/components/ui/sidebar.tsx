@@ -24,7 +24,7 @@ import {
 } from "lucide-react"
 
 const sidebarVariants = cva(
-  "group relative flex h-full flex-col gap-4 border-r bg-background p-4 transition-all duration-500 ease-in-out",
+  "group relative flex h-full flex-col gap-4 border-r bg-background p-4 transition-all duration-500 ease-in-out z-10",
   {
     variants: {
       variant: {
@@ -60,6 +60,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
           isCollapsed ? "w-16" : "w-64",
           "hidden md:flex", // Hide on mobile, show on desktop
           "overflow-hidden", // Prevent content overflow during animation
+          "bg-gray-900 border-gray-700", // Ensure proper background and border
           className
         )}
         {...props}

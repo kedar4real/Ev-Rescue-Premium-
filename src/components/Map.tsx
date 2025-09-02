@@ -195,7 +195,7 @@ export function Map({ stations, userLocation, onStationSelect }: MapProps) {
             <span>Occupied</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white"></div>
+            <div className="w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
             <span>Your Location</span>
           </div>
         </div>

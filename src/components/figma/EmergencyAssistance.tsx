@@ -13,6 +13,8 @@ import Link from 'next/link';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Textarea } from '../ui/textarea';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { EmergencyFormSkeleton, PageHeaderSkeleton } from '../LoadingSkeleton';
+import { useUXFeedback } from '../ui/ux-feedback';
 
 interface EmergencyRequest {
   id: string;
@@ -44,9 +46,11 @@ export function EmergencyAssistance() {
   const [isLoading, setIsLoading] = useState(false);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<{lat: number, lng: number} | null>(null);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
+  const { startEmergencyRequest, showSuccess, showError, LoadingOverlay } = useUXFeedback();
 
   // Remove authentication requirement for now - allow public access
   // useEffect(() => {
@@ -56,11 +60,20 @@ export function EmergencyAssistance() {
   //   }
   // }, [isAuthenticated, router]);
 
+  useEffect(() => {
+    // Simulate initial loading
+    const timer = setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const emergencyTypes = [
     { value: 'battery', label: 'Battery Issue', icon: Battery, color: 'text-orange-500', description: 'Vehicle won\'t start or completely drained' },
     { value: 'tire', label: 'Flat Tire', icon: Car, color: 'text-red-500', description: 'Tire puncture or damage' },
     { value: 'accident', label: 'Accident', icon: AlertTriangle, color: 'text-red-600', description: 'Collision or vehicle damage' },
-    { value: 'other', label: 'Other', icon: Wrench, color: 'text-blue-500', description: 'Mechanical or electrical issues' }
+    { value: 'other', label: 'Other', icon: Wrench, color: 'text-green-500', description: 'Mechanical or electrical issues' }
   ];
 
   const priorityLevels = [
@@ -110,15 +123,15 @@ export function EmergencyAssistance() {
 
   const handleEmergencyRequest = async () => {
     if (!description.trim() || !location.trim()) {
-      notify.error('Missing Information', 'Please fill in all required fields');
+      showError('Missing Information', 'Please fill in all required fields');
       return;
     }
 
     setIsLoading(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Use the enhanced UX feedback system
+      await startEmergencyRequest();
       
       const request: EmergencyRequest = {
         id: `ER-${Date.now()}`,
@@ -140,7 +153,7 @@ export function EmergencyAssistance() {
         }
       };
 
-      notify.success('Request Submitted', 'Your emergency assistance request has been submitted successfully');
+      showSuccess('Request Submitted', 'Your emergency assistance request has been submitted successfully');
       
       // Reset form
       setDescription('');
@@ -152,11 +165,22 @@ export function EmergencyAssistance() {
       setActiveTab('tracking');
       
     } catch (error) {
-      notify.error('Submission Failed', 'Failed to submit your request. Please try again.');
+      showError('Submission Failed', 'Failed to submit your request. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (isInitialLoading) {
+    return (
+      <div className="min-h-screen bg-black p-6">
+        <div className="max-w-4xl mx-auto">
+          <PageHeaderSkeleton />
+          <EmergencyFormSkeleton />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black p-6 animate-fade-in">
@@ -242,7 +266,7 @@ export function EmergencyAssistance() {
             <Card className="bg-gray-800/50 border-gray-700/30 backdrop-blur-sm card-hover">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
-                  <AlertCircle className="h-6 w-6 text-blue-500" />
+                  <AlertCircle className="h-6 w-6 text-green-500" />
                   Describe Your Emergency
                 </CardTitle>
                 <CardDescription className="text-gray-300">
@@ -420,7 +444,7 @@ export function EmergencyAssistance() {
             <Card className="bg-gray-800/50 border-gray-700/30 backdrop-blur-sm card-hover">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
-                  <Clock className="h-6 w-6 text-blue-500" />
+                  <Clock className="h-6 w-6 text-green-500" />
                   Track Your Request
                 </CardTitle>
                 <CardDescription className="text-gray-300">Monitor the status of your emergency assistance request</CardDescription>
@@ -446,6 +470,7 @@ export function EmergencyAssistance() {
           </div>
         )}
       </div>
+      <LoadingOverlay />
     </div>
   );
 }

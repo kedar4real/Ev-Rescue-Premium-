@@ -289,7 +289,7 @@ export default function ProfilePage() {
                     <div className="text-gray-400 text-sm">Services Used</div>
                   </div>
                   <div className="text-center p-4 bg-gray-800 rounded-lg">
-                    <div className="text-2xl font-bold text-blue-400 mb-2">4.9</div>
+                    <div className="text-2xl font-bold text-green-400 mb-2">4.9</div>
                     <div className="text-gray-400 text-sm">Average Rating</div>
                   </div>
                   <div className="text-center p-4 bg-gray-800 rounded-lg">
@@ -319,7 +319,7 @@ export default function ProfilePage() {
                   </div>
                   
                   <div className="flex items-center gap-4 p-3 bg-gray-800 rounded-lg">
-                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
                       <MapPin className="h-5 w-5 text-white" />
                     </div>
                     <div className="flex-1">

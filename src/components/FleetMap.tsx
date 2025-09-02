@@ -253,7 +253,7 @@ export function FleetMap({ onVehicleSelect, showControls = true, className = '' 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'available': return 'bg-green-500'
-      case 'busy': return 'bg-blue-500'
+      case 'busy': return 'bg-green-400'
       case 'maintenance': return 'bg-yellow-500'
       case 'offline': return 'bg-gray-500'
       default: return 'bg-gray-500'
@@ -514,7 +514,7 @@ export function FleetMap({ onVehicleSelect, showControls = true, className = '' 
                         {vehicle.currentTask && (
                           <div className="bg-gray-600/30 p-3 rounded-lg">
                             <div className="flex items-center gap-2 mb-2">
-                              <Zap className="h-4 w-4 text-blue-500" />
+                              <Zap className="h-4 w-4 text-green-500" />
                               <span className="text-sm font-medium text-white">Current Task</span>
                             </div>
                             <p className="text-sm text-gray-300">{vehicle.currentTask.description}</p>
@@ -526,13 +526,13 @@ export function FleetMap({ onVehicleSelect, showControls = true, className = '' 
                         )}
                         
                         {vehicle.destination && (
-                          <div className="bg-blue-600/20 p-3 rounded-lg border border-blue-500/30">
+                          <div className="bg-green-600/20 p-3 rounded-lg border border-green-500/30">
                             <div className="flex items-center gap-2 mb-2">
-                              <Navigation className="h-4 w-4 text-blue-500" />
-                              <span className="text-sm font-medium text-blue-300">En Route To</span>
+                              <Navigation className="h-4 w-4 text-green-500" />
+                              <span className="text-sm font-medium text-green-300">En Route To</span>
                             </div>
-                            <p className="text-sm text-blue-200">{vehicle.destination.address}</p>
-                            <div className="flex items-center gap-4 mt-2 text-xs text-blue-400">
+                            <p className="text-sm text-green-200">{vehicle.destination.address}</p>
+                            <div className="flex items-center gap-4 mt-2 text-xs text-green-400">
                               <span>ETA: {vehicle.destination.eta} min</span>
                               <span>Speed: {vehicle.speed} mph</span>
                             </div>

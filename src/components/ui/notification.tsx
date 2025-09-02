@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { Button } from './button'
+import { CheckCircle, XCircle, AlertTriangle, Info, X } from 'lucide-react'
 
 interface NotificationMethods {
   success: (title: string, message?: string, duration?: number) => void
@@ -65,7 +66,7 @@ export function Notification({
     switch (type) {
       case 'success':
         return {
-          icon: '✅',
+          icon: CheckCircle,
           bgColor: 'bg-green-900/90',
           borderColor: 'border-green-700/50',
           textColor: 'text-green-100',
@@ -73,7 +74,7 @@ export function Notification({
         }
       case 'error':
         return {
-          icon: '❌',
+          icon: XCircle,
           bgColor: 'bg-red-900/90',
           borderColor: 'border-red-700/50',
           textColor: 'text-red-100',
@@ -81,7 +82,7 @@ export function Notification({
         }
       case 'warning':
         return {
-          icon: '⚠️',
+          icon: AlertTriangle,
           bgColor: 'bg-yellow-900/90',
           borderColor: 'border-yellow-700/50',
           textColor: 'text-yellow-100',
@@ -89,15 +90,15 @@ export function Notification({
         }
       case 'info':
         return {
-          icon: 'ℹ️',
-          bgColor: 'bg-blue-900/90',
-          borderColor: 'border-blue-700/50',
-          textColor: 'text-blue-100',
-          iconColor: 'text-blue-400'
+          icon: Info,
+          bgColor: 'bg-green-900/90',
+          borderColor: 'border-green-700/50',
+          textColor: 'text-green-100',
+          iconColor: 'text-green-400'
         }
       default:
         return {
-          icon: 'ℹ️',
+          icon: Info,
           bgColor: 'bg-gray-900/90',
           borderColor: 'border-gray-700/50',
           textColor: 'text-gray-100',
@@ -118,8 +119,8 @@ export function Notification({
     >
       <div className={`${styles.bgColor} ${styles.borderColor} border backdrop-blur-md rounded-2xl shadow-2xl shadow-black/50 p-4`}>
         <div className="flex items-start space-x-3">
-          <div className={`text-xl ${styles.iconColor} flex-shrink-0 mt-0.5`}>
-            {styles.icon}
+          <div className={`${styles.iconColor} flex-shrink-0 mt-0.5`}>
+            <styles.icon className="w-5 h-5" />
           </div>
           
           <div className="flex-1 min-w-0">
@@ -151,9 +152,7 @@ export function Notification({
             aria-label="Close notification"
             title="Close notification"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <X className="w-4 h-4" />
           </button>
         </div>
         

@@ -13,6 +13,7 @@ import { Map } from '../Map';
 import { MapPin, Navigation, Zap, Clock, DollarSign, Filter, Star, ArrowRight, Search, Battery, Wifi, Car } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Separator } from '../ui/separator';
+import { ChargingStationSkeleton, PageHeaderSkeleton } from '../LoadingSkeleton';
 
 interface ChargingStation {
   id: string;
@@ -39,6 +40,7 @@ export function ChargingFinder() {
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
@@ -96,6 +98,15 @@ export function ChargingFinder() {
   //   }
   // }, [isAuthenticated, router]);
 
+  useEffect(() => {
+    // Simulate initial loading
+    const timer = setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const getCurrentLocation = () => {
     setIsLoadingLocation(true);
     
@@ -141,6 +152,17 @@ export function ChargingFinder() {
     ...station,
     distance: userLocation ? calculateDistance(station.location.lat, station.location.lng) || station.distance : station.distance
   })).sort((a, b) => (a.distance || 0) - (b.distance || 0));
+
+  if (isInitialLoading) {
+    return (
+      <div className="min-h-screen bg-black p-6">
+        <div className="max-w-7xl mx-auto">
+          <PageHeaderSkeleton />
+          <ChargingStationSkeleton />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black p-6 animate-fade-in">
@@ -284,7 +306,7 @@ export function ChargingFinder() {
               
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Battery className="h-4 w-4 text-blue-500" />
+                  <Battery className="h-4 w-4 text-green-500" />
                   <span>{station.fastCharging ? "Fast" : "Standard"}</span>
                 </div>
                 <div className="flex items-center gap-2">

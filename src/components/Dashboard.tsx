@@ -67,7 +67,7 @@ export function Dashboard() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'available': return 'bg-green-500'
-      case 'busy': return 'bg-blue-500'
+      case 'busy': return 'bg-green-500'
       case 'maintenance': return 'bg-yellow-500'
       case 'offline': return 'bg-gray-500'
       default: return 'bg-gray-500'

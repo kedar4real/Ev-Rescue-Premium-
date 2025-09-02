@@ -121,7 +121,7 @@ export function RealTimeTracking() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed': return 'bg-green-100 text-green-800';
-      case 'current': return 'bg-blue-100 text-blue-800';
+      case 'current': return 'bg-green-100 text-green-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -129,7 +129,7 @@ export function RealTimeTracking() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed': return <CheckCircle2 className="h-4 w-4 text-green-600" />;
-      case 'current': return <Clock className="h-4 w-4 text-blue-600" />;
+      case 'current': return <Clock className="h-4 w-4 text-green-600" />;
       default: return <Clock className="h-4 w-4 text-gray-600" />;
     }
   };
@@ -290,14 +290,14 @@ export function RealTimeTracking() {
               {trackingData.timeline.map((item, index) => (
                 <div key={index} className="flex items-start space-x-4">
                   <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                    item.completed ? 'bg-green-100' : item.current ? 'bg-blue-100' : 'bg-gray-100'
+                    item.completed ? 'bg-green-100' : item.current ? 'bg-green-100' : 'bg-gray-100'
                   }`}>
                     {getStatusIcon(item.status)}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <p className={`text-sm font-medium ${
-                        item.completed ? 'text-green-800' : item.current ? 'text-blue-800' : 'text-gray-800'
+                        item.completed ? 'text-green-800' : item.current ? 'text-green-800' : 'text-gray-800'
                       }`}>
                         {item.status}
                       </p>

@@ -255,7 +255,7 @@ export default function VanManagementPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'available': return 'bg-green-100 text-green-800';
-      case 'busy': return 'bg-blue-100 text-blue-800';
+      case 'busy': return 'bg-green-100 text-green-800';
       case 'maintenance': return 'bg-yellow-100 text-yellow-800';
       case 'offline': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -264,7 +264,7 @@ export default function VanManagementPage() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'mobile-charging': return 'bg-blue-100 text-blue-800';
+      case 'mobile-charging': return 'bg-green-100 text-green-800';
       case 'towing': return 'bg-purple-100 text-purple-800';
       case 'maintenance': return 'bg-orange-100 text-orange-800';
       case 'emergency': return 'bg-red-100 text-red-800';
@@ -375,8 +375,8 @@ export default function VanManagementPage() {
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center space-x-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
-                  <Truck className="h-6 w-6 text-blue-600" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
+                  <Truck className="h-6 w-6 text-green-600" />
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Total Vans</p>
@@ -506,14 +506,14 @@ export default function VanManagementPage() {
 
                 {/* Current Task */}
                 {van.currentTask && (
-                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
-                      <Clock className="h-4 w-4 text-blue-600" />
-                      <span className="text-sm font-medium text-blue-800">Current Task</span>
+                      <Clock className="h-4 w-4 text-green-600" />
+                      <span className="text-sm font-medium text-green-800">Current Task</span>
                     </div>
-                    <p className="text-sm text-blue-700 mb-1">{van.currentTask.type}</p>
-                    <p className="text-xs text-blue-600">{van.currentTask.location}</p>
-                    <p className="text-xs text-blue-600">
+                    <p className="text-sm text-green-700 mb-1">{van.currentTask.type}</p>
+                    <p className="text-xs text-green-600">{van.currentTask.location}</p>
+                    <p className="text-xs text-green-600">
                       ETA: {formatDate(van.currentTask.estimatedCompletion)}
                     </p>
                   </div>

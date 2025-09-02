@@ -6,6 +6,7 @@ import { Sidebar } from "../components/ui/sidebar";
 import { NotificationContainer } from "../components/ui/notification";
 import { SidebarProvider } from "../components/providers/SidebarProvider";
 import { AuthProvider } from "../components/providers/AuthProvider";
+import { UXFeedbackProvider } from "../components/ui/ux-feedback";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,19 +34,21 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased emergency-bg`}
       >
         <AuthProvider>
-          <SidebarProvider>
-            <div className="flex h-screen overflow-hidden">
-              {/* Sidebar - always visible on desktop */}
-              <Sidebar />
-              {/* Main content area */}
-              <div className="flex-1 flex flex-col min-w-0 relative">
-                <Header />
-                <main className="flex-1 overflow-auto p-4">
-                  {children}
-                </main>
+          <UXFeedbackProvider>
+            <SidebarProvider>
+              <div className="flex h-screen overflow-hidden">
+                {/* Sidebar - always visible on desktop */}
+                <Sidebar />
+                {/* Main content area */}
+                <div className="flex-1 flex flex-col min-w-0 relative">
+                  <Header />
+                  <main className="flex-1 overflow-auto p-4">
+                    {children}
+                  </main>
+                </div>
               </div>
-            </div>
-          </SidebarProvider>
+            </SidebarProvider>
+          </UXFeedbackProvider>
         </AuthProvider>
         <NotificationContainer />
       </body>

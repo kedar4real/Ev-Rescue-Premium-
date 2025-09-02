@@ -23,7 +23,7 @@ export function Loading({
   }
 
   const colorClasses = {
-    primary: 'border-blue-500 text-blue-500',
+    primary: 'border-green-500 text-green-500',
     secondary: 'border-gray-500 text-gray-500',
     success: 'border-green-500 text-green-500',
     warning: 'border-yellow-500 text-yellow-500',
@@ -105,7 +105,7 @@ export function PageLoading() {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center">
       <div className="text-center">
-        <div className="w-16 h-16 border-4 border-gray-700 border-t-blue-500 rounded-full animate-spin mx-auto mb-6"></div>
+        <div className="w-16 h-16 border-4 border-gray-700 border-t-green-500 rounded-full animate-spin mx-auto mb-6"></div>
         <div className="text-2xl font-bold text-white mb-2">Loading EV Rescue</div>
         <div className="text-gray-400">Preparing your experience...</div>
       </div>

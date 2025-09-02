@@ -15,7 +15,11 @@ import {
   Github, 
   Chrome,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  Zap,
+  Shield,
+  Car,
+  Battery
 } from 'lucide-react'
 import { notify } from '../../components/ui/notification'
 import Link from 'next/link'
@@ -119,9 +123,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center">
-              <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-              </svg>
+              <Battery className="w-8 h-8 text-black" />
             </div>
             <div>
               <h1 className="text-3xl font-bold text-white">EV Rescue</h1>
@@ -281,15 +283,15 @@ export default function LoginPage() {
         {/* Features Preview */}
         <div className="mt-8 grid grid-cols-3 gap-4 text-center">
           <div className="p-3 bg-gray-900 rounded-lg border border-gray-700">
-            <div className="text-green-400 text-2xl mb-1">⚡</div>
+            <Zap className="w-6 h-6 text-green-400 mx-auto mb-1" />
             <div className="text-white text-sm font-medium">Fast Response</div>
           </div>
           <div className="p-3 bg-gray-900 rounded-lg border border-gray-700">
-            <div className="text-green-400 text-2xl mb-1">🛡️</div>
+            <Shield className="w-6 h-6 text-green-400 mx-auto mb-1" />
             <div className="text-white text-sm font-medium">24/7 Support</div>
           </div>
           <div className="p-3 bg-gray-900 rounded-lg border border-gray-700">
-            <div className="text-green-400 text-2xl mb-1">🚗</div>
+            <Car className="w-6 h-6 text-green-400 mx-auto mb-1" />
             <div className="text-white text-sm font-medium">EV Specialists</div>
           </div>
         </div>

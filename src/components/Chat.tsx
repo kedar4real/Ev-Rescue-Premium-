@@ -226,7 +226,7 @@ export default function Chat({ requestId, providerId, providerName, isOpen, onCl
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {isLoading ? (
               <div className="flex items-center justify-center h-32">
-                <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin"></div>
               </div>
             ) : (
               <>
@@ -238,7 +238,7 @@ export default function Chat({ requestId, providerId, providerName, isOpen, onCl
                     <div
                       className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                         message.senderType === 'user'
-                          ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
+                          ? 'bg-gradient-to-r from-green-600 to-green-700 text-white'
                           : message.senderType === 'system'
                           ? 'bg-gray-700/50 text-gray-300 text-center'
                           : 'bg-gray-800/50 text-white border border-gray-700/30'
@@ -261,7 +261,7 @@ export default function Chat({ requestId, providerId, providerName, isOpen, onCl
                                   href={attachment.url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200 text-xs"
+                                  className="flex items-center gap-2 text-green-300 hover:text-green-200 text-xs"
                                 >
                                   📍 {attachment.name}
                                 </a>
@@ -272,7 +272,7 @@ export default function Chat({ requestId, providerId, providerName, isOpen, onCl
                       )}
                       
                       <div className={`text-xs mt-2 ${
-                        message.senderType === 'user' ? 'text-blue-200' : 'text-gray-400'
+                        message.senderType === 'user' ? 'text-green-200' : 'text-gray-400'
                       }`}>
                         {formatTime(message.timestamp)}
                         {message.senderType === 'user' && (
@@ -340,12 +340,12 @@ export default function Chat({ requestId, providerId, providerName, isOpen, onCl
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
-                className="flex-1 bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent rounded-2xl px-4 py-3 text-sm"
+                className="flex-1 bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500/50 focus:border-transparent rounded-2xl px-4 py-3 text-sm"
               />
               <Button
                 onClick={sendMessage}
                 disabled={!newMessage.trim()}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 px-4 py-3 rounded-2xl font-semibold shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 border-0 px-4 py-3 rounded-2xl font-semibold shadow-lg shadow-green-500/30 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

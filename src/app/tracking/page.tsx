@@ -7,6 +7,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import LiveTracker from '../../components/LiveTracker'
 import { notify } from '../../components/ui/notification'
+import { TrackingSkeleton, PageHeaderSkeleton } from '../../components/LoadingSkeleton'
 
 interface EmergencyRequest {
   id: string
@@ -107,11 +108,9 @@ export default function TrackingPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto"></div>
-            <p className="mt-4 text-xl text-gray-400">Loading tracking information...</p>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <PageHeaderSkeleton />
+          <TrackingSkeleton />
         </div>
       </div>
     )
@@ -145,7 +144,7 @@ export default function TrackingPage() {
               </p>
               <Button
                 onClick={() => router.push('/emergency')}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 px-8 py-4 rounded-2xl font-bold text-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300"
+                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 border-0 px-8 py-4 rounded-2xl font-bold text-lg shadow-lg shadow-green-500/30 transform hover:scale-105 transition-all duration-300"
               >
                 🚨 Create Emergency Request
               </Button>
@@ -165,7 +164,7 @@ export default function TrackingPage() {
                       key={request.id}
                       className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
                         selectedRequest === request.id
-                          ? 'border-blue-500 bg-blue-900/20'
+                          ? 'border-green-500 bg-green-900/20'
                           : 'border-gray-700/50 bg-gray-800/50 hover:border-gray-600'
                       }`}
                       onClick={() => handleRequestSelect(request.id)}
@@ -179,7 +178,7 @@ export default function TrackingPage() {
                           {request.priority.toUpperCase()}
                         </div>
                         <div className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                          request.status === 'in_progress' ? 'bg-blue-900/50 text-blue-200' :
+                          request.status === 'in_progress' ? 'bg-green-900/50 text-green-200' :
                           request.status === 'assigned' ? 'bg-yellow-900/50 text-yellow-200' :
                           'bg-gray-900/50 text-gray-200'
                         }`}>
@@ -196,7 +195,7 @@ export default function TrackingPage() {
                           Created: {request.createdAt.toLocaleTimeString()}
                         </div>
                         {request.assignedProvider && (
-                          <div className="text-blue-400 text-sm">
+                          <div className="text-green-400 text-sm">
                             Provider: {request.assignedProvider.name}
                           </div>
                         )}
@@ -241,7 +240,7 @@ export default function TrackingPage() {
                     <Button
                       onClick={() => router.push('/emergency')}
                       variant="outline"
-                      className="w-full border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white py-4 rounded-xl font-bold text-lg"
+                      className="w-full border-green-500 text-green-400 hover:bg-green-500 hover:text-white py-4 rounded-xl font-bold text-lg"
                     >
                       📝 New Request
                     </Button>
@@ -263,7 +262,7 @@ export default function TrackingPage() {
             <div className="grid md:grid-cols-4 gap-6">
               <Card className="bg-gray-900/60 border-gray-700/30 backdrop-blur-sm">
                 <CardContent className="p-6 text-center">
-                  <div className="text-3xl font-bold text-blue-400">{activeRequests.length}</div>
+                  <div className="text-3xl font-bold text-green-400">{activeRequests.length}</div>
                   <div className="text-gray-400 text-sm">Active Requests</div>
                 </CardContent>
               </Card>

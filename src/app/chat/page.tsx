@@ -22,6 +22,7 @@ import {
   X
 } from 'lucide-react'
 import { notify } from '../../components/ui/notification'
+import { ChatSkeleton } from '../../components/LoadingSkeleton'
 
 interface ChatMessage {
   id: string
@@ -52,6 +53,7 @@ export default function LiveChatPage() {
     rating: number
   } | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const supportCategories: SupportCategory[] = [
@@ -74,7 +76,7 @@ export default function LiveChatPage() {
       name: 'Technical Support',
       description: 'Vehicle technical issues',
       icon: Bot,
-      color: 'text-blue-500'
+      color: 'text-green-500'
     },
     {
       id: 'billing',
@@ -107,6 +109,7 @@ export default function LiveChatPage() {
           status: 'read'
         }
       ])
+      setIsInitialLoading(false)
     }, 2000)
 
     return () => clearTimeout(timer)
@@ -194,6 +197,48 @@ export default function LiveChatPage() {
   const endChat = () => {
     setChatStatus('ended')
     notify.success('Chat Ended', 'Your chat session has been ended. Thank you for contacting EV Rescue!')
+  }
+
+  if (isInitialLoading) {
+    return (
+      <div className="min-h-screen bg-black p-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Live Chat Support</h1>
+            <p className="text-xl text-green-400 max-w-2xl mx-auto">
+              24/7 real-time support for all your EV rescue needs
+            </p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div className="lg:col-span-1">
+              <Card className="bg-gray-900 border-gray-700">
+                <CardHeader>
+                  <CardTitle className="text-white">Support Categories</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} className="p-4 rounded-lg border-2 border-gray-600 bg-gray-800">
+                      <div className="animate-pulse flex items-center gap-3">
+                        <div className="w-5 h-5 bg-gray-700 rounded"></div>
+                        <div className="space-y-2">
+                          <div className="h-4 bg-gray-700 rounded w-24"></div>
+                          <div className="h-3 bg-gray-700 rounded w-32"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
+            <div className="lg:col-span-3">
+              <Card className="bg-gray-900 border-gray-700 h-[600px]">
+                <ChatSkeleton />
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -324,7 +369,7 @@ export default function LiveChatPage() {
                           <span className="flex items-center gap-1">
                             {message.status === 'sent' && <Clock className="h-3 w-3" />}
                             {message.status === 'delivered' && <CheckCircle className="h-3 w-3" />}
-                            {message.status === 'read' && <CheckCircle className="h-3 w-3 text-blue-400" />}
+                            {message.status === 'read' && <CheckCircle className="h-3 w-3 text-green-400" />}
                           </span>
                         )}
                       </div>

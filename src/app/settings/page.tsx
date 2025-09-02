@@ -266,7 +266,7 @@ export default function SettingsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <Mail className="h-4 w-4 text-blue-400" />
+                    <Mail className="h-4 w-4 text-green-400" />
                     <div>
                       <div className="text-white font-medium">Email Notifications</div>
                       <div className="text-sm text-gray-400">Receive updates via email</div>
@@ -335,7 +335,7 @@ export default function SettingsPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <MapPin className="h-4 w-4 text-blue-400" />
+                    <MapPin className="h-4 w-4 text-green-400" />
                     <div>
                       <div className="text-white font-medium">Location Sharing</div>
                       <div className="text-sm text-gray-400">Share location for emergency services</div>

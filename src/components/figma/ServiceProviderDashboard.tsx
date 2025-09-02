@@ -112,7 +112,7 @@ export const ServiceProviderDashboard: React.FC = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending': return 'bg-yellow-500 text-white';
-      case 'assigned': return 'bg-blue-500 text-white';
+      case 'assigned': return 'bg-green-500 text-white';
       case 'in-progress': return 'bg-orange-500 text-white';
       case 'completed': return 'bg-green-500 text-white';
       default: return 'bg-muted text-muted-foreground';

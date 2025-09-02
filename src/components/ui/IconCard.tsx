@@ -26,8 +26,8 @@ export const IconCard: React.FC<IconCardProps> = ({
   
   const variants = {
     default: "border border-gray-200 hover:border-gray-300 hover:bg-gray-50",
-    interactive: "border border-gray-200 hover:border-blue-300 hover:bg-blue-50 cursor-pointer hover:shadow-md",
-    highlighted: "border-2 border-blue-200 bg-blue-50 hover:bg-blue-100 hover:border-blue-300"
+    interactive: "border border-gray-200 hover:border-green-300 hover:bg-green-50 cursor-pointer hover:shadow-md",
+    highlighted: "border-2 border-green-200 bg-green-50 hover:bg-green-100 hover:border-green-300"
   };
 
   const iconClasses = variants[variant];

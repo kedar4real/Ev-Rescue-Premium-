@@ -5,6 +5,8 @@ import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
 import { notify } from './ui/notification'
+import { useAuth } from '../hooks/useAuth'
+import { useUXFeedback } from './ui/ux-feedback'
 
 declare global {
   interface Window {
@@ -55,11 +57,14 @@ export default function RazorpayPayment({
   onCancel
 }: RazorpayPaymentProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [orderId, setOrderId] = useState<string>('')
+  const { user } = useAuth()
+  const { startPayment, showSuccess, showError, LoadingOverlay } = useUXFeedback()
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
-    name: '',
-    email: '',
-    phone: '',
-    address: ''
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    address: user?.address || ''
   })
   const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false)
 
@@ -104,37 +109,76 @@ export default function RazorpayPayment({
     return true
   }
 
-  const createOrder = async (): Promise<string> => {
-    // In a real app, this would call your backend API
-    // For demo purposes, we'll simulate order creation
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(`order_${Date.now()}`)
-      }, 1000)
-    })
+  const createOrder = async () => {
+    try {
+      const response = await fetch('/api/razorpay/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount,
+          currency,
+          planName,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        return data.order
+      } else {
+        throw new Error(data.error || 'Failed to create order')
+      }
+    } catch (error) {
+      console.error('Order creation error:', error)
+      throw error
+    }
+  }
+
+  const verifyPayment = async (paymentData: any) => {
+    try {
+      const response = await fetch('/api/razorpay/verify-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentData),
+      })
+
+      const data = await response.json()
+      return data.success
+    } catch (error) {
+      console.error('Payment verification error:', error)
+      return false
+    }
   }
 
   const handlePayment = async () => {
     if (!validateForm()) return
     if (!isRazorpayLoaded) {
-      notify.error('Payment Error', 'Payment gateway not loaded')
+      showError('Payment Error', 'Payment gateway not loaded')
       return
     }
 
     setIsLoading(true)
 
     try {
-      // Create order (in real app, call your backend)
-      const orderId = await createOrder()
+      // Use enhanced UX feedback for payment flow
+      await startPayment()
+      
+      // Create order first
+      const order = await createOrder()
+      setOrderId(order.id)
 
       // Razorpay options
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_YOUR_TEST_KEY', // Replace with your actual key
-        amount: amount * 100, // Razorpay expects amount in paise
-        currency: currency,
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+        amount: order.amount,
+        currency: order.currency,
         name: 'EV Rescue Premium',
         description: `${planName} Plan Subscription`,
-        order_id: orderId,
+        order_id: order.id,
         prefill: {
           name: paymentDetails.name,
           email: paymentDetails.email,
@@ -145,12 +189,23 @@ export default function RazorpayPayment({
           plan: planName
         },
         theme: {
-          color: '#3B82F6'
+          color: '#00ff41' // Green theme
         },
-        handler: function (response: { razorpay_payment_id: string }) {
-          // Payment successful
-          notify.success('Payment Successful', `Payment ID: ${response.razorpay_payment_id}`)
-          onSuccess(response.razorpay_payment_id)
+        handler: async (response: { 
+          razorpay_payment_id: string
+          razorpay_order_id: string
+          razorpay_signature: string
+        }) => {
+          // Verify payment
+          const isVerified = await verifyPayment(response)
+          
+          if (isVerified) {
+            showSuccess('Payment Successful', `Payment ID: ${response.razorpay_payment_id}`)
+            onSuccess(response.razorpay_payment_id)
+          } else {
+            showError('Payment Verification Failed', 'Payment could not be verified')
+            onFailure('Payment verification failed')
+          }
         },
         modal: {
           ondismiss: function () {
@@ -192,7 +247,7 @@ export default function RazorpayPayment({
         <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700/30">
           <div className="flex items-center justify-between mb-3">
             <div className="text-white font-semibold">{planName} Plan</div>
-            <div className="text-2xl font-bold text-blue-400">
+            <div className="text-2xl font-bold text-green-400">
               {formatAmount(amount, currency)}
             </div>
           </div>
@@ -213,7 +268,7 @@ export default function RazorpayPayment({
                 value={paymentDetails.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
                 placeholder="Enter your full name"
-                className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent rounded-xl"
+                className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500/50 focus:border-transparent rounded-xl"
               />
             </div>
             <div>
@@ -225,7 +280,7 @@ export default function RazorpayPayment({
                 value={paymentDetails.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
                 placeholder="your@email.com"
-                className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent rounded-xl"
+                className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500/50 focus:border-transparent rounded-xl"
               />
             </div>
           </div>
@@ -240,7 +295,7 @@ export default function RazorpayPayment({
                 value={paymentDetails.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
                 placeholder="+91 98765 43210"
-                className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent rounded-xl"
+                className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500/50 focus:border-transparent rounded-xl"
               />
             </div>
             <div>
@@ -248,7 +303,7 @@ export default function RazorpayPayment({
                 Currency
               </label>
                              <select
-                 className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
+                 className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white rounded-xl focus:ring-2 focus:ring-green-500/50 focus:border-transparent"
                  disabled
                  aria-label="Currency selection"
                  title="Currency selection"
@@ -269,18 +324,18 @@ export default function RazorpayPayment({
               onChange={(e) => handleInputChange('address', e.target.value)}
               placeholder="Enter your complete billing address"
               rows={3}
-              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent rounded-xl resize-none"
+              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500/50 focus:border-transparent rounded-xl resize-none"
             />
           </div>
         </div>
 
         {/* Payment Security Info */}
-        <div className="bg-blue-900/20 border border-blue-700/30 rounded-xl p-4">
+        <div className="bg-green-900/20 border border-green-700/30 rounded-xl p-4">
           <div className="flex items-start gap-3">
-            <div className="text-blue-400 text-xl">🔒</div>
+            <div className="text-green-400 text-xl">🔒</div>
             <div>
-              <div className="text-blue-300 font-semibold mb-1">Secure Payment</div>
-              <div className="text-blue-200 text-sm">
+              <div className="text-green-300 font-semibold mb-1">Secure Payment</div>
+              <div className="text-green-200 text-sm">
                 Your payment information is encrypted and secure. We use industry-standard SSL encryption 
                 and never store your payment details on our servers.
               </div>
@@ -300,7 +355,7 @@ export default function RazorpayPayment({
           <Button
             onClick={handlePayment}
             disabled={isLoading || !isRazorpayLoaded}
-            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 rounded-xl px-6 py-3 font-semibold shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 border-0 rounded-xl px-6 py-3 font-semibold shadow-lg shadow-green-500/30 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {isLoading ? (
               <div className="flex items-center gap-2">
@@ -328,11 +383,12 @@ export default function RazorpayPayment({
         {/* Terms */}
         <div className="text-center text-gray-400 text-xs">
           By proceeding with the payment, you agree to our{' '}
-          <a href="#" className="text-blue-400 hover:underline">Terms of Service</a>
+          <a href="#" className="text-green-400 hover:underline">Terms of Service</a>
           {' '}and{' '}
-          <a href="#" className="text-blue-400 hover:underline">Privacy Policy</a>
+          <a href="#" className="text-green-400 hover:underline">Privacy Policy</a>
         </div>
       </CardContent>
+      <LoadingOverlay />
     </Card>
   )
 }

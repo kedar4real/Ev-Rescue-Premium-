@@ -90,8 +90,8 @@ export function Header() {
           </SheetContent>
         </Sheet>
 
-        {/* Logo */}
-        <div className="flex items-center gap-2 mr-6">
+        {/* Logo - Hidden on desktop since sidebar has its own logo */}
+        <div className="flex items-center gap-2 mr-6 md:hidden">
           <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
             <Zap className="h-4 w-4 text-black" />
           </div>

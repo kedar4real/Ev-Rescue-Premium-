@@ -195,7 +195,7 @@ export default function PricingPage() {
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed max-w-3xl mx-auto mb-8">
             Select the perfect plan for your emergency charging needs. 
-            <span className="text-blue-400 font-semibold"> Save up to 17%</span> with annual billing.
+            <span className="text-green-400 font-semibold"> Save up to 17%</span> with annual billing.
           </p>
           
           {/* Billing Toggle */}
@@ -208,7 +208,7 @@ export default function PricingPage() {
             <button
               onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
               className={`relative w-16 h-8 rounded-full transition-colors duration-300 ${
-                billingCycle === 'yearly' ? 'bg-blue-600' : 'bg-gray-600'
+                billingCycle === 'yearly' ? 'bg-green-600' : 'bg-gray-600'
               }`}
               aria-label="Toggle billing cycle"
               title="Toggle billing cycle"
@@ -236,12 +236,12 @@ export default function PricingPage() {
             <Card 
               key={plan.id}
               className={`relative bg-gray-900/60 border-gray-700/30 backdrop-blur-sm transition-all duration-300 hover:scale-105 ${
-                plan.popular ? 'border-blue-500/50 shadow-2xl shadow-blue-500/20' : 'hover:border-gray-600/50'
+                plan.popular ? 'border-green-500/50 shadow-2xl shadow-green-500/20' : 'hover:border-gray-600/50'
               }`}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+                  <span className="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
                     ⭐ Most Popular
                   </span>
                 </div>
@@ -278,7 +278,7 @@ export default function PricingPage() {
                   onClick={() => handlePlanSelection(plan.id)}
                   className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${
                     plan.popular
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/30 transform hover:scale-105'
+                      ? 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-lg shadow-green-500/30 transform hover:scale-105'
                       : 'bg-gray-800/50 border-2 border-gray-600/50 text-white hover:bg-gray-700/50 hover:border-gray-500'
                   }`}
                 >
@@ -300,7 +300,7 @@ export default function PricingPage() {
                     <tr className="border-b border-gray-700/30">
                       <th className="text-left p-6 text-gray-400 font-semibold">Features</th>
                       <th className="text-center p-6 text-gray-400 font-semibold">Basic</th>
-                      <th className="text-center p-6 text-blue-400 font-semibold">Premium</th>
+                      <th className="text-center p-6 text-green-400 font-semibold">Premium</th>
                       <th className="text-center p-6 text-gray-400 font-semibold">Enterprise</th>
                     </tr>
                   </thead>
@@ -386,7 +386,7 @@ export default function PricingPage() {
 
         {/* CTA Section */}
         <div className="text-center">
-          <Card className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-700/30 backdrop-blur-sm">
+          <Card className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-700/30 backdrop-blur-sm">
             <CardContent className="p-12">
               <h2 className="text-3xl font-black text-white mb-6">Ready to Get Started?</h2>
               <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
@@ -396,7 +396,7 @@ export default function PricingPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
                   onClick={() => handlePlanSelection('premium')}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 px-8 py-4 rounded-2xl font-bold text-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300"
+                  className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 border-0 px-8 py-4 rounded-2xl font-bold text-lg shadow-lg shadow-green-500/30 transform hover:scale-105 transition-all duration-300"
                 >
                   🚀 Start Premium Plan
                 </Button>
