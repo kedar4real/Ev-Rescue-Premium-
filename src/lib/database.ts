@@ -43,7 +43,7 @@ const interceptedAddDoc = async (collectionRef: any, data: any) => {
 }
 
 // Replace the addDoc import with our intercepted version
-const addDoc = interceptedAddDoc
+// const addDoc = interceptedAddDoc
 
 // Database Collections
 export const COLLECTIONS = {
@@ -233,7 +233,7 @@ export interface Analytics {
 export class DatabaseService {
   // User Operations
   static async createUser(userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
-    const docRef = await addDoc(collection(db, COLLECTIONS.USERS), {
+    const docRef = await interceptedAddDoc(collection(db, COLLECTIONS.USERS), {
       ...userData,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
@@ -263,7 +263,7 @@ export class DatabaseService {
 
   // Emergency Request Operations
   static async createEmergencyRequest(requestData: Omit<EmergencyRequest, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
-    const docRef = await addDoc(collection(db, COLLECTIONS.EMERGENCY_REQUESTS), {
+    const docRef = await interceptedAddDoc(collection(db, COLLECTIONS.EMERGENCY_REQUESTS), {
       ...requestData,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
@@ -366,7 +366,7 @@ export class DatabaseService {
     }
 
     try {
-      const docRef = await addDoc(collection(db, COLLECTIONS.NOTIFICATIONS), {
+      const docRef = await interceptedAddDoc(collection(db, COLLECTIONS.NOTIFICATIONS), {
         ...notificationData,
         createdAt: serverTimestamp()
       })

@@ -26,12 +26,12 @@ import { notify } from './ui/notification'
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-  const { user, isAuthenticated, signOut } = useAuth()
+  const { user, isAuthenticated, logout } = useAuth()
   const router = useRouter()
 
   const handleSignOut = async () => {
     try {
-      await signOut()
+      await logout()
       notify.success('Signed Out', 'You have been successfully signed out')
       router.push('/landing')
     } catch (error) {
@@ -98,7 +98,7 @@ export function Navigation() {
                     <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
                       <User className="w-4 h-4 text-black" />
                     </div>
-                    <span className="hidden sm:block">{user?.name || 'User'}</span>
+                    <span className="hidden sm:block">{user?.firstName ? `${user.firstName} ${user.lastName}` : 'User'}</span>
                   </Button>
 
                   {/* User Dropdown */}

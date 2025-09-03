@@ -309,7 +309,7 @@ export function EnhancedMap({
   }, [onLocationUpdate])
 
   // Toggle map layers
-  const toggleLayer = (layer: string) => {
+  const toggleLayer = (layer: keyof typeof mapLayers) => {
     setMapLayers(prev => ({
       ...prev,
       [layer]: !prev[layer]
@@ -317,7 +317,7 @@ export function EnhancedMap({
   }
 
   // Toggle filter options
-  const toggleFilter = (filter: string) => {
+  const toggleFilter = (filter: keyof typeof filterOptions) => {
     setFilterOptions(prev => ({
       ...prev,
       [filter]: !prev[filter]

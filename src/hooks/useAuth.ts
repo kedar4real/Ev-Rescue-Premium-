@@ -6,7 +6,7 @@ import {
   onAuthStateChanged,
   updateProfile
 } from 'firebase/auth'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, Timestamp } from 'firebase/firestore'
 import { auth, db } from '../lib/firebase'
 import { useAppStore } from '../lib/store'
 import { User } from '../lib/database'
@@ -32,14 +32,15 @@ export function useAuth() {
               lastName: firebaseUser.displayName?.split(' ')[1] || '',
               phone: '',
               role: 'user',
-              vehicleType: 'car',
-              vehicleModel: '',
-              batteryCapacity: 50,
+                      vehicleType: 'car',
+        vehicleModel: '',
+        vehicleYear: 2020,
+        batteryCapacity: 50,
               currentLocation: { 
                 lat: 0, 
                 lng: 0, 
                 address: '',
-                lastUpdated: new Date() as any
+                lastUpdated: Timestamp.now()
               },
               isProvider: false,
               rating: 0,
@@ -47,8 +48,8 @@ export function useAuth() {
               subscription: {
                 plan: 'basic',
                 status: 'active',
-                startDate: new Date() as any,
-                endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) as any,
+                        startDate: Timestamp.now(),
+        endDate: Timestamp.fromDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)),
                 requestsUsed: 0,
                 requestsLimit: 2
               },
@@ -57,8 +58,8 @@ export function useAuth() {
                 locationTracking: true,
                 emergencyContacts: []
               },
-              createdAt: new Date() as any,
-              updatedAt: new Date() as any
+                    createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now()
             }
             await setDoc(doc(db, 'users', firebaseUser.uid), userData)
             setUser(userData)
@@ -99,12 +100,13 @@ export function useAuth() {
         role: 'user',
         vehicleType: userData.vehicleType || 'car',
         vehicleModel: userData.vehicleModel || '',
+        vehicleYear: userData.vehicleYear || 2020,
         batteryCapacity: userData.batteryCapacity || 50,
         currentLocation: { 
           lat: 0, 
           lng: 0, 
           address: '',
-          lastUpdated: new Date() as any
+          lastUpdated: Timestamp.now()
         },
         isProvider: false,
         rating: 0,
@@ -112,8 +114,8 @@ export function useAuth() {
         subscription: {
           plan: 'basic',
           status: 'active',
-          startDate: new Date() as any,
-          endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) as any,
+                  startDate: Timestamp.now(),
+        endDate: Timestamp.fromDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)),
           requestsUsed: 0,
           requestsLimit: 2
         },
@@ -122,8 +124,8 @@ export function useAuth() {
           locationTracking: true,
           emergencyContacts: []
         },
-        createdAt: new Date() as any,
-        updatedAt: new Date() as any
+              createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now()
       }
       
       await setDoc(doc(db, 'users', result.user.uid), newUser)
@@ -150,8 +152,8 @@ export function useAuth() {
     
     try {
       const userRef = doc(db, 'users', user.id)
-      await setDoc(userRef, { ...user, ...updates, updatedAt: new Date() }, { merge: true })
-      setUser({ ...user, ...updates, updatedAt: new Date() })
+      await setDoc(userRef, { ...user, ...updates, updatedAt: Timestamp.now() }, { merge: true })
+      setUser({ ...user, ...updates, updatedAt: Timestamp.now() })
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
       throw new Error(errorMessage)

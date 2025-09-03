@@ -129,12 +129,14 @@ export function ChargingFinder() {
           const { latitude, longitude } = position.coords;
           setUserLocation({ lat: latitude, lng: longitude });
           notify.success('Location Found', 'Your current location has been detected');
+          setIsLoadingLocation(false);
         },
         (error) => {
           console.error('Location error:', error);
           notify.error('Location Error', 'Unable to get your current location');
+          setIsLoadingLocation(false);
         }
-      ).finally(() => setIsLoadingLocation(false));
+      );
     } else {
       notify.error('Location Error', 'Geolocation is not supported by this browser');
       setIsLoadingLocation(false);

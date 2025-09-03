@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
 import { Badge } from '../../components/ui/badge'
@@ -11,15 +11,10 @@ import {
   Users, 
   Clock, 
   DollarSign, 
-  MapPin, 
   Zap, 
-  AlertTriangle,
-  CheckCircle,
-  XCircle,
   BarChart3,
   Calendar,
-  Download,
-  Filter
+  Download
 } from 'lucide-react'
 
 interface MetricCard {
@@ -41,7 +36,7 @@ interface ServiceData {
 
 export default function AnalyticsPage() {
   const [timeRange, setTimeRange] = useState('30d')
-  const [selectedMetric, setSelectedMetric] = useState('all')
+  const [selectedMetric] = useState('all')
 
   const metrics: MetricCard[] = [
     {

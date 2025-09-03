@@ -44,7 +44,7 @@ export async function PUT(request: NextRequest) {
 
     // Validate status transitions
     if (updates.status) {
-      const validTransitions = {
+      const validTransitions: Record<string, string[]> = {
         'pending': ['assigned', 'cancelled'],
         'assigned': ['in_progress', 'cancelled'],
         'in_progress': ['completed', 'cancelled'],
@@ -52,8 +52,8 @@ export async function PUT(request: NextRequest) {
         'cancelled': []
       }
 
-      const currentStatus = currentRequest.status
-      const newStatus = updates.status
+      const currentStatus = currentRequest.status as string
+      const newStatus = updates.status as string
 
       if (!validTransitions[currentStatus]?.includes(newStatus)) {
         return NextResponse.json(

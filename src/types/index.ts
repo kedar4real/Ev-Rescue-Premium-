@@ -30,7 +30,7 @@ export interface EmergencyRequest {
   batteryLevel: number
   description: string
   urgency: 'low' | 'medium' | 'high'
-  status: 'pending' | 'active' | 'completed' | 'cancelled'
+  status: 'pending' | 'assigned' | 'in_progress' | 'completed' | 'cancelled'
   createdAt: Date
   updatedAt: Date
   estimatedArrival: Date | null

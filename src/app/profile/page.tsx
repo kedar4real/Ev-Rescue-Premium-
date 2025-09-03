@@ -26,15 +26,15 @@ import { useAuth } from '../../components/providers/AuthProvider'
 import Link from 'next/link'
 
 export default function ProfilePage() {
-  const { user } = useAuth()
+  const { user, userProfile } = useAuth()
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [profileData, setProfileData] = useState({
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
+    firstName: userProfile?.firstName || '',
+    lastName: userProfile?.lastName || '',
     email: user?.email || '',
-    phone: user?.phone || '',
-    address: user?.address || ''
+    phone: userProfile?.phone || '',
+    address: userProfile?.address || ''
   })
 
   const handleSave = async () => {
@@ -55,11 +55,11 @@ export default function ProfilePage() {
 
   const handleCancel = () => {
     setProfileData({
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
+      firstName: userProfile?.firstName || '',
+      lastName: userProfile?.lastName || '',
       email: user?.email || '',
-      phone: user?.phone || '',
-      address: user?.address || ''
+      phone: userProfile?.phone || '',
+      address: userProfile?.address || ''
     })
     setIsEditing(false)
   }
@@ -96,7 +96,7 @@ export default function ProfilePage() {
                   <Avatar className="h-24 w-24 mx-auto">
                     <AvatarImage src="/api/placeholder/96/96" />
                     <AvatarFallback className="bg-green-600 text-white text-2xl">
-                      {user.firstName?.[0]}{user.lastName?.[0]}
+                      {userProfile?.firstName?.[0]}{userProfile?.lastName?.[0]}
                     </AvatarFallback>
                   </Avatar>
                   <Button
@@ -109,14 +109,14 @@ export default function ProfilePage() {
                 </div>
                 
                 <h2 className="text-xl font-semibold text-white mb-2">
-                  {user.firstName} {user.lastName}
+                  {userProfile?.firstName} {userProfile?.lastName}
                 </h2>
                 <p className="text-gray-400 text-sm mb-4">{user.email}</p>
                 
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-400">Member since:</span>
-                    <span className="text-white">{user.createdAt.toLocaleDateString()}</span>
+                    <span className="text-white">{userProfile?.createdAt ? userProfile.createdAt.toLocaleDateString() : 'N/A'}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-400">Status:</span>

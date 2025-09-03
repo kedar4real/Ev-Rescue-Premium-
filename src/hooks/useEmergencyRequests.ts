@@ -12,7 +12,8 @@ import {
 } from 'firebase/firestore'
 import { db } from '../lib/firebase'
 import { useAppStore } from '../lib/store'
-import { EmergencyRequest, ServiceProvider, Location } from '../types'
+import { EmergencyRequest } from '../lib/database'
+import { ServiceProvider, Location } from '../types'
 import { generateId } from '../lib/utils'
 
 export function useEmergencyRequests() {
@@ -31,21 +32,28 @@ export function useEmergencyRequests() {
     
     setLoading(true)
     try {
-      const newRequest: EmergencyRequest = {
+      const newRequest: any = {
         id: generateId(),
         userId: user.id,
+        userInfo: {
+          name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+          phone: user.phone || '',
+          email: user.email || ''
+        },
         location: requestData.location || { lat: 0, lng: 0, address: '' },
-        vehicleType: requestData.vehicleType || 'car',
-        vehicleModel: requestData.vehicleModel || '',
-        batteryLevel: requestData.batteryLevel || 0,
-        description: requestData.description || '',
-        urgency: requestData.urgency || 'medium',
-        status: requestData.status || 'pending',
+        vehicleInfo: {
+          type: (requestData as any).vehicleType || 'car',
+          model: (requestData as any).vehicleModel || '',
+          batteryLevel: (requestData as any).batteryLevel || 0
+        },
+        requestType: 'charging' as const,
+        priority: (requestData as any).urgency || 'medium',
+        status: (requestData as any).status || 'pending',
+        notes: (requestData as any).description || '',
+        images: [],
+        cost: 0,
         createdAt: new Date(),
-        updatedAt: new Date(),
-        estimatedArrival: null,
-        providerId: null,
-        cost: 0
+        updatedAt: new Date()
       }
 
       const docRef = await addDoc(collection(db, 'emergency_requests'), newRequest)

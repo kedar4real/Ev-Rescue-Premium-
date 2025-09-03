@@ -61,10 +61,10 @@ export default function RazorpayPayment({
   const { user } = useAuth()
   const { startPayment, showSuccess, showError, LoadingOverlay } = useUXFeedback()
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
-    name: user?.name || '',
+    name: user?.firstName ? `${user.firstName} ${user.lastName}` : '',
     email: user?.email || '',
     phone: user?.phone || '',
-    address: user?.address || ''
+    address: user?.currentLocation?.address || ''
   })
   const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false)
 
@@ -217,7 +217,7 @@ export default function RazorpayPayment({
       }
 
       // Initialize Razorpay
-      const RazorpayConstructor = (window as { Razorpay: any }).Razorpay
+      const RazorpayConstructor = (window as any).Razorpay
       const razorpay = new RazorpayConstructor(options)
       razorpay.open()
 

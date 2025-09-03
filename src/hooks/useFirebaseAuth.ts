@@ -12,7 +12,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   FacebookAuthProvider,
-  TwitterAuthProvider
+  TwitterAuthProvider,
+  AuthError as FirebaseAuthError
 } from 'firebase/auth'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { auth, db } from '../lib/firebase'
@@ -85,8 +86,8 @@ export function useFirebaseAuth() {
       return result
     } catch (error: unknown) {
       const authError: AuthError = {
-        code: (error as any).code,
-        message: getErrorMessage((error as any).code)
+        code: (error as FirebaseAuthError).code,
+        message: getErrorMessage((error as FirebaseAuthError).code)
       }
       setError(authError)
       throw authError
@@ -147,8 +148,8 @@ export function useFirebaseAuth() {
       return result
     } catch (error: unknown) {
       const authError: AuthError = {
-        code: (error as any).code,
-        message: getErrorMessage((error as any).code)
+        code: (error as FirebaseAuthError).code,
+        message: getErrorMessage((error as FirebaseAuthError).code)
       }
       setError(authError)
       throw authError
@@ -168,8 +169,8 @@ export function useFirebaseAuth() {
       return result
     } catch (error: unknown) {
       const authError: AuthError = {
-        code: (error as any).code,
-        message: getErrorMessage((error as any).code)
+        code: (error as FirebaseAuthError).code,
+        message: getErrorMessage((error as FirebaseAuthError).code)
       }
       setError(authError)
       throw authError
@@ -189,8 +190,8 @@ export function useFirebaseAuth() {
       return result
     } catch (error: unknown) {
       const authError: AuthError = {
-        code: (error as any).code,
-        message: getErrorMessage((error as any).code)
+        code: (error as FirebaseAuthError).code,
+        message: getErrorMessage((error as FirebaseAuthError).code)
       }
       setError(authError)
       throw authError
@@ -210,8 +211,8 @@ export function useFirebaseAuth() {
       return result
     } catch (error: unknown) {
       const authError: AuthError = {
-        code: (error as any).code,
-        message: getErrorMessage((error as any).code)
+        code: (error as FirebaseAuthError).code,
+        message: getErrorMessage((error as FirebaseAuthError).code)
       }
       setError(authError)
       throw authError
@@ -228,8 +229,8 @@ export function useFirebaseAuth() {
       setUserProfile(null)
     } catch (error: unknown) {
       const authError: AuthError = {
-        code: (error as any).code,
-        message: getErrorMessage((error as any).code)
+        code: (error as FirebaseAuthError).code,
+        message: getErrorMessage((error as FirebaseAuthError).code)
       }
       setError(authError)
       throw authError
@@ -243,8 +244,8 @@ export function useFirebaseAuth() {
       await sendPasswordResetEmail(auth, email)
     } catch (error: unknown) {
       const authError: AuthError = {
-        code: (error as any).code,
-        message: getErrorMessage((error as any).code)
+        code: (error as FirebaseAuthError).code,
+        message: getErrorMessage((error as FirebaseAuthError).code)
       }
       setError(authError)
       throw authError

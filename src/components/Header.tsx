@@ -24,7 +24,7 @@ import { useState } from 'react'
 
 export function Header() {
   const pathname = usePathname()
-  const { user, isAuthenticated, signOut } = useAuth()
+  const { user, userProfile, isAuthenticated, signOut } = useAuth()
   const [showUserMenu, setShowUserMenu] = useState(false)
   
   const navItems = [
@@ -137,11 +137,11 @@ export function Header() {
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="/api/placeholder/32/32" />
                   <AvatarFallback className="bg-green-600 text-white text-sm">
-                    {user?.firstName?.[0]}{user?.lastName?.[0]}
+                    {userProfile?.firstName?.[0]}{userProfile?.lastName?.[0]}
                   </AvatarFallback>
                 </Avatar>
                 <span className="hidden sm:inline text-sm font-medium">
-                  {user?.firstName} {user?.lastName}
+                  {userProfile?.firstName} {userProfile?.lastName}
                 </span>
                 <ChevronDown className="h-4 w-4" />
               </Button>
@@ -149,7 +149,7 @@ export function Header() {
               {showUserMenu && (
                 <div className="absolute right-0 top-full mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg py-2 z-50">
                   <div className="px-4 py-2 border-b border-gray-700">
-                    <p className="text-sm text-white font-medium">{user?.firstName} {user?.lastName}</p>
+                    <p className="text-sm text-white font-medium">{userProfile?.firstName} {userProfile?.lastName}</p>
                     <p className="text-xs text-gray-400">{user?.email}</p>
                   </div>
                   

@@ -110,21 +110,21 @@ export default function LiveTracker({ requestId, showProviderInfo = true }: Live
             </div>
             <div>
               <span className="font-medium text-muted-foreground">Urgency:</span>
-              <span className="ml-2 capitalize">{currentRequest.urgency}</span>
+              <span className="ml-2 capitalize">{currentRequest.priority}</span>
             </div>
             <div>
               <span className="font-medium text-muted-foreground">Vehicle:</span>
-              <span className="ml-2">{currentRequest.vehicleModel}</span>
+              <span className="ml-2">{currentRequest.vehicleInfo.model}</span>
             </div>
             <div>
               <span className="font-medium text-muted-foreground">Battery:</span>
-              <span className="ml-2">{currentRequest.batteryLevel}%</span>
+              <span className="ml-2">{currentRequest.vehicleInfo.batteryLevel}%</span>
             </div>
           </div>
           
           <div>
             <span className="font-medium text-muted-foreground">Description:</span>
-            <p className="mt-1">{currentRequest.description}</p>
+            <p className="mt-1">{currentRequest.notes}</p>
           </div>
         </CardContent>
       </Card>
@@ -164,14 +164,14 @@ export default function LiveTracker({ requestId, showProviderInfo = true }: Live
       </Card>
 
       {/* Provider Info */}
-      {showProviderInfo && currentRequest.providerId && (
+      {showProviderInfo && currentRequest.assignedProvider && (
         <Card className="uber-card">
           <CardHeader>
             <CardTitle>Service Provider</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-center text-muted-foreground">
-              <p>Provider ID: {currentRequest.providerId}</p>
+              <p>Provider ID: {currentRequest.assignedProvider.id}</p>
               <p className="text-sm mt-2">Provider details would be displayed here</p>
             </div>
           </CardContent>

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
 import { Input } from '../../components/ui/input'
-import { Badge } from '../../components/ui/badge'
+
 import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/avatar'
 import { 
   MessageSquare, 
@@ -296,7 +296,7 @@ export default function LiveChatPage() {
                     {agentInfo ? (
                       <>
                         <Avatar className="h-10 w-10">
-                          <AvatarImage src={agentInfo.avatar} />
+                          <AvatarImage src={agentInfo.avatar} alt={agentInfo.name} />
                           <AvatarFallback className="bg-green-600 text-white">
                             {agentInfo.name.split(' ').map(n => n[0]).join('')}
                           </AvatarFallback>

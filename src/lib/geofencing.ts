@@ -445,7 +445,7 @@ class GeofencingService {
     const restrictedZone = geofences.find(g => g.type === 'restricted_zone')
     const premiumZone = geofences.find(g => g.type === 'premium_zone')
 
-    const available = serviceArea?.properties.serviceAvailable && !restrictedZone
+    const available = Boolean(serviceArea?.properties.serviceAvailable && !restrictedZone)
     const restrictions = geofences.flatMap(g => g.properties.restrictions)
     const pricing = premiumZone ? 'premium' : 'standard'
 

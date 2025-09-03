@@ -30,7 +30,7 @@ interface AuthContextType {
   isAuthenticated: boolean
   isLoading: boolean
   error: { code: string; message: string } | null
-  signIn: (email: string, password: string) => Promise<{ user: any; error?: any }>
+  signIn: (email: string, password: string) => Promise<{ user: User | null; error?: { code: string; message: string } }>
   signUp: (userData: {
     email: string
     password: string
@@ -38,10 +38,10 @@ interface AuthContextType {
     lastName: string
     phone: string
     address: string
-  }) => Promise<{ user: any; error?: any }>
-  signInWithGoogle: () => Promise<{ user: any; error?: any }>
-  signInWithFacebook: () => Promise<{ user: any; error?: any }>
-  signInWithTwitter: () => Promise<{ user: any; error?: any }>
+  }) => Promise<{ user: User | null; error?: { code: string; message: string } }>
+  signInWithGoogle: () => Promise<{ user: User | null; error?: { code: string; message: string } }>
+  signInWithFacebook: () => Promise<{ user: User | null; error?: { code: string; message: string } }>
+  signInWithTwitter: () => Promise<{ user: User | null; error?: { code: string; message: string } }>
   signOut: () => Promise<void>
   resetPassword: (email: string) => Promise<void>
   updateUserProfile: (updates: Partial<UserProfile>) => Promise<void>

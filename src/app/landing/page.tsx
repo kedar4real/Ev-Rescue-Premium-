@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from '../../components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card'
+import { Card, CardContent } from '../../components/ui/card'
 import { Badge } from '../../components/ui/badge'
 import { 
   Zap, 
@@ -15,17 +15,14 @@ import {
   ArrowRight,
   CheckCircle,
   Battery,
-  Navigation,
-  MessageSquare,
-  TrendingUp,
-  Globe
+  TrendingUp
 } from 'lucide-react'
 import Link from 'next/link'
 import { useAuth } from '../../hooks/useAuth'
 
 export default function LandingPage() {
   const { user, isAuthenticated } = useAuth()
-  const [activeFeature, setActiveFeature] = useState(0)
+  const [activeFeature] = useState(0)
 
   const features = [
     {
@@ -228,7 +225,6 @@ export default function LandingPage() {
                       <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
                     ))}
                   </div>
-                  {/* eslint-disable-next-line react/no-unescaped-entities */}
                   <p className="text-gray-300 italic">&ldquo;{testimonial.content}&rdquo;</p>
                 </CardContent>
               </Card>

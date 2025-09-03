@@ -1,0 +1,12 @@
+name: Deploy (Disabled)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: false
+    steps:
+      - name: Disabled
+        run: echo "Workflow disabled"

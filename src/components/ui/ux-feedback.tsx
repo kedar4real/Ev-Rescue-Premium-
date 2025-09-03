@@ -21,12 +21,12 @@ export function UXFeedbackProvider({ children }: { children: React.ReactNode }) 
 export function useUXFeedback() {
   const toast = useToast()
   const loadingOverlay = useLoadingOverlay()
-  const [progressSteps, setProgressSteps] = useState<{ id: string; title: string; status: 'pending' | 'active' | 'completed' | 'error' }[]>([])
+  const [progressSteps, setProgressSteps] = useState<{ id: string; title: string; description: string; status: 'pending' | 'in-progress' | 'completed' | 'error' }[]>([])
   const [currentProgressStep, setCurrentProgressStep] = useState<string>('')
 
   // Emergency Request Flow
   const startEmergencyRequest = async () => {
-    const steps = [...EmergencyRequestProgress]
+    const steps = [...EmergencyRequestProgress] as { id: string; title: string; description: string; status: 'pending' | 'in-progress' | 'completed' | 'error' }[]
     setProgressSteps(steps)
     
     loadingOverlay.show({
@@ -65,7 +65,7 @@ export function useUXFeedback() {
 
   // Payment Flow
   const startPayment = async () => {
-    const steps = [...PaymentProgress]
+    const steps = [...PaymentProgress] as { id: string; title: string; description: string; status: 'pending' | 'in-progress' | 'completed' | 'error' }[]
     setProgressSteps(steps)
     
     loadingOverlay.show({
@@ -100,7 +100,7 @@ export function useUXFeedback() {
 
   // Charging Session Flow
   const startChargingSession = async () => {
-    const steps = [...ChargingSessionProgress]
+    const steps = [...ChargingSessionProgress] as { id: string; title: string; description: string; status: 'pending' | 'in-progress' | 'completed' | 'error' }[]
     setProgressSteps(steps)
     
     loadingOverlay.show({

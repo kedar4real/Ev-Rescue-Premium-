@@ -5,7 +5,7 @@ import { Button } from '../../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card'
 import { useAuth } from '../../hooks/useAuth'
 import { useRealTimeData } from '../../hooks/useRealTimeData'
-import { DashboardSkeleton, PageHeaderSkeleton, StatsGridSkeleton, TableSkeleton } from '../../components/LoadingSkeleton'
+import { DashboardSkeleton, PageHeaderSkeleton, StatsGridSkeleton } from '../../components/LoadingSkeleton'
 import { analytics } from '../../lib/analytics'
 import Link from 'next/link'
 
@@ -186,27 +186,27 @@ export default function DashboardPage() {
                 <CardDescription className="text-lg text-gray-300 font-light mt-2">Your latest emergency charging requests</CardDescription>
               </CardHeader>
               <CardContent className="px-8 pb-8">
-                {userRequests && userRequests.length > 0 ? (
+                {emergencyRequests && emergencyRequests.length > 0 ? (
                   <div className="space-y-6">
-                    {userRequests.slice(0, 3).map((request) => (
+                    {emergencyRequests.slice(0, 3).map((request) => (
                       <div key={request.id} className="flex items-center justify-between p-6 border border-gray-700/30 rounded-2xl bg-gray-800/40 backdrop-blur-sm hover:bg-gray-700/50 transition-all duration-300">
                         <div className="flex items-center gap-5">
                           <div className={`w-4 h-4 rounded-full ${
                             request.status === 'pending' ? 'bg-yellow-500' :
-                            request.status === 'active' ? 'bg-green-500' :
+                            request.status === 'in_progress' ? 'bg-green-500' :
                             request.status === 'completed' ? 'bg-green-500' : 'bg-gray-500'
                           }`} />
                           <div>
-                            <div className="font-semibold text-white text-lg">{request.vehicleType} - {request.vehicleModel}</div>
+                            <div className="font-semibold text-white text-lg">{request.vehicleInfo.type} - {request.vehicleInfo.model}</div>
                             <div className="text-base text-gray-300 font-medium">
-                              {request.location.address} • {request.urgency} priority
+                              {request.location.address} • {request.priority} priority
                             </div>
                           </div>
                         </div>
                         <div className="text-right">
                           <div className="text-base font-semibold capitalize text-white">{request.status}</div>
                           <div className="text-sm text-gray-400 font-medium">
-                            {new Date(request.createdAt).toLocaleDateString()}
+                            {request.createdAt.toDate().toLocaleDateString()}
                           </div>
                         </div>
                       </div>
@@ -231,15 +231,15 @@ export default function DashboardPage() {
               <CardDescription className="text-lg text-gray-300 font-light mt-2">Complete history of your emergency charging requests</CardDescription>
             </CardHeader>
             <CardContent className="px-8 pb-8">
-              {userRequests && userRequests.length > 0 ? (
+              {emergencyRequests && emergencyRequests.length > 0 ? (
                 <div className="space-y-6">
-                  {userRequests.map((request) => (
+                  {emergencyRequests.map((request) => (
                     <div key={request.id} className="border border-gray-700/30 rounded-2xl p-6 bg-gray-800/40 backdrop-blur-sm hover:bg-gray-700/50 transition-all duration-300">
                       <div className="flex items-center justify-between mb-4">
-                        <h4 className="font-semibold text-white text-lg">{request.vehicleType} - {request.vehicleModel}</h4>
+                        <h4 className="font-semibold text-white text-lg">{request.vehicleInfo.type} - {request.vehicleInfo.model}</h4>
                         <span className={`px-3 py-2 rounded-full text-sm font-semibold ${
                           request.status === 'pending' ? 'bg-yellow-900/50 text-yellow-200 border border-yellow-700/50' :
-                          request.status === 'active' ? 'bg-green-900/50 text-green-200 border border-green-700/50' :
+                          request.status === 'in_progress' ? 'bg-green-900/50 text-green-200 border border-green-700/50' :
                           request.status === 'completed' ? 'bg-green-900/50 text-green-200 border border-green-700/50' : 'bg-gray-700/50 text-gray-300 border border-gray-600/50'
                         }`}>
                           {request.status}
@@ -252,21 +252,21 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex items-center gap-3">
                           <strong className="text-white font-semibold">Battery:</strong> 
-                          <span className="text-gray-300 font-medium">{request.batteryLevel}%</span>
+                          <span className="text-gray-300 font-medium">{request.vehicleInfo.batteryLevel}%</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <strong className="text-white font-semibold">Urgency:</strong> 
-                          <span className="text-gray-300 font-medium capitalize">{request.urgency}</span>
+                          <span className="text-gray-300 font-medium capitalize">{request.priority}</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <strong className="text-white font-semibold">Created:</strong> 
-                          <span className="text-gray-300 font-medium">{new Date(request.createdAt).toLocaleDateString()}</span>
+                          <span className="text-gray-300 font-medium">{request.createdAt.toDate().toLocaleDateString()}</span>
                         </div>
                       </div>
-                      {request.description && (
+                                            {request.notes && (
                         <div className="mt-5 pt-5 border-t border-gray-700/30">
-                          <strong className="text-white font-semibold">Details:</strong> 
-                          <span className="text-gray-300 font-medium ml-3">{request.description}</span>
+                          <strong className="text-white font-semibold">Details:</strong>
+                          <span className="text-gray-300 font-medium ml-3">{request.notes}</span>
                         </div>
                       )}
                     </div>
@@ -290,16 +290,16 @@ export default function DashboardPage() {
               <CardDescription className="text-lg text-gray-300 font-light mt-2">Available mobile charging units in your area</CardDescription>
             </CardHeader>
             <CardContent className="px-8 pb-8">
-              {nearbyProviders && nearbyProviders.length > 0 ? (
+              {fleetVehicles && fleetVehicles.length > 0 ? (
                 <div className="space-y-6">
-                  {nearbyProviders.map((provider) => (
+                  {fleetVehicles.map((provider) => (
                     <div key={provider.id} className="border border-gray-700/30 rounded-2xl p-6 bg-gray-800/40 backdrop-blur-sm hover:bg-gray-700/50 transition-all duration-300">
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="font-semibold text-white text-lg">{provider.name}</h4>
                         <span className={`px-3 py-2 rounded-full text-sm font-semibold ${
-                          provider.isAvailable ? 'bg-green-900/50 text-green-200 border border-green-700/50' : 'bg-red-900/50 text-red-200 border border-red-700/50'
+                          provider.status === 'available' ? 'bg-green-900/50 text-green-200 border border-green-700/50' : 'bg-red-900/50 text-red-200 border border-red-700/50'
                         }`}>
-                          {provider.isAvailable ? 'Available' : 'Busy'}
+                          {provider.status === 'available' ? 'Available' : 'Busy'}
                         </span>
                       </div>
                       <div className="grid md:grid-cols-2 gap-5 text-base">
@@ -309,17 +309,12 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex items-center gap-3">
                           <strong className="text-white font-semibold">Rescues:</strong> 
-                          <span className="text-gray-300 font-medium">{provider.totalRescues}</span>
+                          <span className="text-gray-300 font-medium">{provider.totalServices}</span>
                         </div>
-                        {provider.distance && (
-                          <div className="flex items-center gap-3">
-                            <strong className="text-white font-semibold">Distance:</strong> 
-                            <span className="text-gray-300 font-medium">{provider.distance}km</span>
-                          </div>
-                        )}
+
                         <div className="flex items-center gap-3">
-                          <strong className="text-white font-semibold">Vehicle Types:</strong> 
-                          <span className="text-gray-300 font-medium">{provider.vehicleTypes.join(', ')}</span>
+                          <strong className="text-white font-semibold">Type:</strong> 
+                          <span className="text-gray-300 font-medium capitalize">{provider.type.replace('_', ' ')}</span>
                         </div>
                       </div>
                     </div>
