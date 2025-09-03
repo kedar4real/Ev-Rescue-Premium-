@@ -57,7 +57,7 @@ export default function RazorpayPayment({
   onCancel
 }: RazorpayPaymentProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [orderId, setOrderId] = useState<string>('')
+  const [, setOrderId] = useState<string>('')
   const { user } = useAuth()
   const { startPayment, showSuccess, showError, LoadingOverlay } = useUXFeedback()
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
@@ -217,7 +217,7 @@ export default function RazorpayPayment({
       }
 
       // Initialize Razorpay
-      const RazorpayConstructor = (window as any).Razorpay
+      const RazorpayConstructor = (window as unknown as { Razorpay: new (options: Record<string, unknown>) => { open: () => void } }).Razorpay
       const razorpay = new RazorpayConstructor(options)
       razorpay.open()
 

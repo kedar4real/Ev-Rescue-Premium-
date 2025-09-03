@@ -125,11 +125,53 @@ export default function Chat({ requestId, providerId, providerName, isOpen, onCl
     }
 
     setMessages(prev => [...prev, message])
+    const currentMessage = newMessage.trim()
     setNewMessage('')
+    setIsTyping(true)
     
-    // Simulate provider response
-    setTimeout(() => {
-      const providerResponse: ChatMessage = {
+    try {
+      // Send message to API
+      const response = await fetch('/api/chat/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chatId: requestId,
+          senderId: 'user1',
+          senderName: 'You',
+          senderType: 'user',
+          message: currentMessage
+        })
+      })
+
+      if (response.ok) {
+        // Update message status
+        setMessages(prev => prev.map(msg => 
+          msg.id === message.id ? { ...msg, isRead: true } : msg
+        ))
+      }
+
+      // Simulate intelligent provider response
+      setTimeout(() => {
+        setIsTyping(false)
+        const providerResponse: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          senderId: 'provider1',
+          senderName: providerName || 'Service Provider',
+          senderType: 'provider',
+          message: generateProviderResponse(currentMessage),
+          timestamp: new Date(),
+          isRead: false
+        }
+        setMessages(prev => [...prev, providerResponse])
+      }, 1500 + Math.random() * 2000)
+    } catch (error) {
+      console.error('Error sending message:', error)
+      setIsTyping(false)
+      
+      // Fallback response
+      const errorResponse: ChatMessage = {
         id: (Date.now() + 1).toString(),
         senderId: 'provider1',
         senderName: providerName || 'Service Provider',
@@ -138,8 +180,26 @@ export default function Chat({ requestId, providerId, providerName, isOpen, onCl
         timestamp: new Date(),
         isRead: false
       }
-      setMessages(prev => [...prev, providerResponse])
-    }, 2000)
+      setMessages(prev => [...prev, errorResponse])
+    }
+  }
+
+  const generateProviderResponse = (userMessage: string): string => {
+    const lowerMessage = userMessage.toLowerCase()
+    
+    if (lowerMessage.includes('location') || lowerMessage.includes('where')) {
+      return 'Thank you for the location update. We can see your position and are en route. ETA: 12 minutes.'
+    } else if (lowerMessage.includes('battery') || lowerMessage.includes('charge')) {
+      return 'Understood. Our mobile unit is equipped with a 75kWh fast charger. We\'ll get you back on the road quickly.'
+    } else if (lowerMessage.includes('emergency') || lowerMessage.includes('urgent')) {
+      return 'We\'re treating this as a priority. Our emergency response team is dispatched and will arrive shortly.'
+    } else if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
+      return 'You\'re welcome! We\'re here to help. Is there anything else you need assistance with?'
+    } else if (lowerMessage.includes('eta') || lowerMessage.includes('time') || lowerMessage.includes('when')) {
+      return 'Current ETA is 10-15 minutes. We\'ll send you real-time updates as we approach your location.'
+    } else {
+      return 'Message received. We\'re monitoring your request and will provide updates shortly.'
+    }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

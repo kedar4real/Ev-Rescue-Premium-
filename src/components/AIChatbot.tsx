@@ -92,26 +92,70 @@ export function AIChatbot({ isOpen, onClose, onEmergencyRequest, onLocationReque
     })
 
     try {
-      // Simulate AI response
-      const botResponse = await generateAIResponse(message)
-      
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        type: 'bot',
-        content: botResponse.content,
-        timestamp: new Date(),
-        suggestions: botResponse.suggestions,
-        actionType: botResponse.actionType
-      }
+      // Get AI response from API
+      const response = await fetch('/api/chat/ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: message,
+          context: { source: 'chatbot' }
+        })
+      })
 
-      setTimeout(() => {
-        setMessages(prev => [...prev, botMessage])
-        setIsTyping(false)
-      }, 1000 + Math.random() * 2000) // Simulate thinking time
+      if (response.ok) {
+        const botResponse = await response.json()
+        
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          type: 'bot',
+          content: botResponse.content,
+          timestamp: new Date(),
+          suggestions: botResponse.suggestions,
+          actionType: botResponse.actionType
+        }
+
+        setTimeout(() => {
+          setMessages(prev => [...prev, botMessage])
+          setIsTyping(false)
+        }, 1000 + Math.random() * 2000) // Simulate thinking time
+      } else {
+        // Fallback to local AI response
+        const botResponse = await generateAIResponse(message)
+        
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          type: 'bot',
+          content: botResponse.content,
+          timestamp: new Date(),
+          suggestions: botResponse.suggestions,
+          actionType: botResponse.actionType
+        }
+
+        setTimeout(() => {
+          setMessages(prev => [...prev, botMessage])
+          setIsTyping(false)
+        }, 1000 + Math.random() * 2000)
+      }
 
     } catch (error) {
       console.error('Error generating AI response:', error)
       setIsTyping(false)
+      
+      // Fallback response
+      const fallbackMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        type: 'bot',
+        content: "I'm experiencing some technical difficulties. Please try again or contact our support team directly.",
+        timestamp: new Date(),
+        suggestions: ["Contact Support", "Try Again", "Emergency Help"]
+      }
+      
+      setTimeout(() => {
+        setMessages(prev => [...prev, fallbackMessage])
+        setIsTyping(false)
+      }, 1000)
     }
   }
 

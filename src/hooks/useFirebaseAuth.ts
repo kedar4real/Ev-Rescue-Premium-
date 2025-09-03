@@ -261,7 +261,7 @@ export function useFirebaseAuth() {
       const updatedProfile = { ...userProfile, ...updates }
       await setDoc(doc(db, 'users', user.uid), updatedProfile)
       setUserProfile(updatedProfile as UserProfile)
-    } catch (error: unknown) {
+    } catch {
       const authError: AuthError = {
         code: 'profile-update-error',
         message: 'Failed to update profile'

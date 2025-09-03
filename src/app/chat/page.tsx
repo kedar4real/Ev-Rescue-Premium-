@@ -87,9 +87,31 @@ export default function LiveChatPage() {
     }
   ]
 
-  // Mock agent connection
+  // Load chat history and connect agent
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const loadChatHistory = async () => {
+      try {
+        // Load previous messages if any
+        const response = await fetch(`/api/chat/messages?chatId=support-${selectedCategory || 'general'}&limit=20`)
+        if (response.ok) {
+          const data = await response.json()
+          if (data.messages && data.messages.length > 0) {
+            setMessages(data.messages.map((msg: any) => ({
+              id: msg.id,
+              content: msg.message,
+              sender: msg.senderType === 'user' ? 'user' : 'agent',
+              timestamp: new Date(msg.timestamp),
+              type: 'text',
+              status: msg.isRead ? 'read' : 'sent'
+            })))
+          }
+        }
+      } catch (error) {
+        console.error('Error loading chat history:', error)
+      }
+    }
+
+    const timer = setTimeout(async () => {
       setChatStatus('connected')
       setAgentInfo({
         name: 'Sarah Johnson',
@@ -98,29 +120,33 @@ export default function LiveChatPage() {
         rating: 4.8
       })
       
-      // Add welcome message
-      setMessages([
-        {
-          id: '1',
-          content: 'Hi! I\'m Sarah, your EV Rescue support specialist. How can I help you today?',
-          sender: 'agent',
-          timestamp: new Date(),
-          type: 'text',
-          status: 'read'
-        }
-      ])
+      await loadChatHistory()
+      
+      // Add welcome message if no previous messages
+      if (messages.length === 0) {
+        setMessages([
+          {
+            id: '1',
+            content: 'Hi! I\'m Sarah, your EV Rescue support specialist. How can I help you today?',
+            sender: 'agent',
+            timestamp: new Date(),
+            type: 'text',
+            status: 'read'
+          }
+        ])
+      }
       setIsInitialLoading(false)
     }, 2000)
 
     return () => clearTimeout(timer)
-  }, [])
+  }, [selectedCategory])
 
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!newMessage.trim()) return
 
     const userMessage: ChatMessage = {
@@ -133,22 +159,89 @@ export default function LiveChatPage() {
     }
 
     setMessages(prev => [...prev, userMessage])
+    const currentMessage = newMessage
     setNewMessage('')
     setIsTyping(true)
 
-    // Simulate agent response
-    setTimeout(() => {
+    try {
+      // Send message to API
+      const response = await fetch('/api/chat/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chatId: `support-${Date.now()}`,
+          senderId: 'user',
+          senderName: 'You',
+          senderType: 'user',
+          message: currentMessage
+        })
+      })
+
+      if (response.ok) {
+        // Update message status to delivered
+        setMessages(prev => prev.map(msg => 
+          msg.id === userMessage.id ? { ...msg, status: 'delivered' as const } : msg
+        ))
+      }
+
+      // Get AI-powered agent response
+      const aiResponse = await fetch('/api/chat/ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: currentMessage,
+          context: { category: selectedCategory, agentInfo }
+        })
+      })
+
+      if (aiResponse.ok) {
+        const aiData = await aiResponse.json()
+        
+        setTimeout(() => {
+          setIsTyping(false)
+          const agentResponse: ChatMessage = {
+            id: (Date.now() + 1).toString(),
+            content: aiData.content,
+            sender: 'agent',
+            timestamp: new Date(),
+            type: 'text',
+            status: 'read'
+          }
+          setMessages(prev => [...prev, agentResponse])
+        }, 1000 + Math.random() * 2000)
+      } else {
+        // Fallback to basic response
+        setTimeout(() => {
+          setIsTyping(false)
+          const agentResponse: ChatMessage = {
+            id: (Date.now() + 1).toString(),
+            content: getAgentResponse(currentMessage),
+            sender: 'agent',
+            timestamp: new Date(),
+            type: 'text',
+            status: 'read'
+          }
+          setMessages(prev => [...prev, agentResponse])
+        }, 1000 + Math.random() * 2000)
+      }
+    } catch (error) {
+      console.error('Error sending message:', error)
       setIsTyping(false)
+      // Fallback response
       const agentResponse: ChatMessage = {
         id: (Date.now() + 1).toString(),
-        content: getAgentResponse(newMessage),
+        content: "I apologize, but I'm experiencing some technical difficulties. Please try again or contact our support team directly.",
         sender: 'agent',
         timestamp: new Date(),
         type: 'text',
         status: 'read'
       }
       setMessages(prev => [...prev, agentResponse])
-    }, 1000 + Math.random() * 2000)
+    }
   }
 
   const getAgentResponse = (userMessage: string): string => {
@@ -394,6 +487,46 @@ export default function LiveChatPage() {
                 
                 <div ref={messagesEndRef} />
               </div>
+
+              {/* Quick Actions */}
+              {messages.length > 0 && (
+                <div className="border-t border-gray-700 p-4">
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setNewMessage("I need emergency charging assistance")}
+                      className="text-xs bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20"
+                    >
+                      🚨 Emergency Help
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setNewMessage("Can you help me find nearby charging stations?")}
+                      className="text-xs bg-green-500/10 border-green-500/30 text-green-400 hover:bg-green-500/20"
+                    >
+                      🔋 Find Chargers
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setNewMessage("I need help with my subscription")}
+                      className="text-xs bg-blue-500/10 border-blue-500/30 text-blue-400 hover:bg-blue-500/20"
+                    >
+                      💳 Account Help
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setNewMessage("Can you track my current request?")}
+                      className="text-xs bg-purple-500/10 border-purple-500/30 text-purple-400 hover:bg-purple-500/20"
+                    >
+                      📍 Track Request
+                    </Button>
+                  </div>
+                </div>
+              )}
 
               {/* Chat Input */}
               <div className="border-t border-gray-700 p-4">

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { ProgressIndicator, EmergencyRequestProgress, PaymentProgress, ChargingSessionProgress } from './progress-indicator'
 import { LoadingOverlay, useLoadingOverlay } from './loading-overlay'
 import { ToastContainer, useToast } from './enhanced-toast'
