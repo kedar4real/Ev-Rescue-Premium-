@@ -149,10 +149,10 @@ export function ServiceMapWidget({ data = mockData }: ServiceMapWidgetProps) {
           {/* Grid lines */}
           <div className="absolute inset-0 opacity-20">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="absolute w-full h-px bg-gray-600" style={{ top: `${i * 12.5}%` }} />
+              <div key={i} className={`absolute w-full h-px bg-gray-600 grid-line-h-${i}`} />
             ))}
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="absolute h-full w-px bg-gray-600" style={{ left: `${i * 12.5}%` }} />
+              <div key={i} className={`absolute h-full w-px bg-gray-600 grid-line-v-${i}`} />
             ))}
           </div>
           
@@ -161,7 +161,7 @@ export function ServiceMapWidget({ data = mockData }: ServiceMapWidgetProps) {
             <div
               key={location.id}
               className="absolute transform -translate-x-1/2 -translate-y-1/2"
-              style={{ left: `${location.x}%`, top: `${location.y}%` }}
+              style={{ '--marker-x': `${location.x}%`, '--marker-y': `${location.y}%`, left: 'var(--marker-x)', top: 'var(--marker-y)' } as React.CSSProperties}
             >
               <div className="relative">
                 <div className="w-3 h-3 bg-white rounded-full border-2 border-gray-800 shadow-lg">

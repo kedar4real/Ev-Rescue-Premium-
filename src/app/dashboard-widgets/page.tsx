@@ -103,8 +103,8 @@ export default function DashboardWidgetsPage() {
       
       {/* Particle Effects */}
       <div className="absolute top-1/4 left-1/2 w-2 h-2 bg-green-400/60 rounded-full animate-particle"></div>
-      <div className="absolute top-3/4 left-1/3 w-1 h-1 bg-emerald-300/80 rounded-full animate-particle" style={{animationDelay: '1s'}}></div>
-      <div className="absolute top-1/2 right-1/4 w-1.5 h-1.5 bg-green-300/70 rounded-full animate-particle" style={{animationDelay: '2s'}}></div>
+      <div className="absolute top-3/4 left-1/3 w-1 h-1 bg-emerald-300/80 rounded-full animate-particle animation-delay-1s"></div>
+      <div className="absolute top-1/2 right-1/4 w-1.5 h-1.5 bg-green-300/70 rounded-full animate-particle animation-delay-2s"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Enhanced Header */}
@@ -148,11 +148,12 @@ export default function DashboardWidgetsPage() {
 
         {/* Enhanced Widget Grid with Staggered Animations */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {widgets.map((widget, index) => (
+          {widgets.map((widget, index) => {
+            const delayClass = index === 0 ? '' : index === 1 ? 'animation-delay-0-1s' : index === 2 ? 'animation-delay-0-2s' : index === 3 ? 'animation-delay-0-3s' : 'animation-delay-0-4s'
+            return (
             <div 
               key={widget.id} 
-              className="animate-fade-in-up" 
-              style={{animationDelay: `${index * 0.1}s`}}
+              className={`animate-fade-in-up ${delayClass}`}
             >
               <DashboardWidget
                 config={widget}
@@ -168,7 +169,8 @@ export default function DashboardWidgetsPage() {
                 </div>
               </DashboardWidget>
             </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Empty State */}

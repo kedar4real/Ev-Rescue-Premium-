@@ -511,6 +511,55 @@ body {
   box-shadow: 0 4px 16px hsl(var(--primary)/0.8);
 }
 
+/* Animation Delay Classes */
+.animation-delay-1s {
+  animation-delay: 1s;
+}
+
+.animation-delay-2s {
+  animation-delay: 2s;
+}
+
+.animation-delay-0-1s {
+  animation-delay: 0.1s;
+}
+
+.animation-delay-0-2s {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-0-3s {
+  animation-delay: 0.3s;
+}
+
+.animation-delay-0-4s {
+  animation-delay: 0.4s;
+}
+
+/* Dynamic width classes for charts */
+.chart-bar-dynamic {
+  width: var(--chart-width, 0%);
+}
+
+/* Grid position classes */
+.grid-line-h-0 { top: 0%; }
+.grid-line-h-1 { top: 12.5%; }
+.grid-line-h-2 { top: 25%; }
+.grid-line-h-3 { top: 37.5%; }
+.grid-line-h-4 { top: 50%; }
+.grid-line-h-5 { top: 62.5%; }
+.grid-line-h-6 { top: 75%; }
+.grid-line-h-7 { top: 87.5%; }
+
+.grid-line-v-0 { left: 0%; }
+.grid-line-v-1 { left: 12.5%; }
+.grid-line-v-2 { left: 25%; }
+.grid-line-v-3 { left: 37.5%; }
+.grid-line-v-4 { left: 50%; }
+.grid-line-v-5 { left: 62.5%; }
+.grid-line-v-6 { left: 75%; }
+.grid-line-v-7 { left: 87.5%; }
+
 /* Enhanced Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 12px;

@@ -102,8 +102,8 @@ export function RevenueChartWidget({ data = mockData }: RevenueChartWidgetProps)
                 </div>
                 <div className="w-full bg-gray-700/50 rounded-full h-2">
                   <div
-                    className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full transition-all duration-500"
-                    style={{ width: `${(month.revenue / maxRevenue) * 100}%` }}
+                    className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full transition-all duration-500 chart-bar-dynamic"
+                    style={{ '--chart-width': `${(month.revenue / maxRevenue) * 100}%` } as React.CSSProperties}
                   />
                 </div>
               </div>
