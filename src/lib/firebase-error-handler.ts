@@ -92,6 +92,17 @@ export class FirebaseErrorHandler {
   }
 
   /**
+   * Check if an error is an offline-related error
+   */
+  static isOfflineError(error: any): boolean {
+    return error.code === 'unavailable' ||
+           error.message?.includes('offline') ||
+           error.message?.includes('network') ||
+           error.message?.includes('connection') ||
+           error.message?.includes('timeout')
+  }
+
+  /**
    * Log error with context
    */
   static logError(error: any, context: string = 'Firebase operation') {
