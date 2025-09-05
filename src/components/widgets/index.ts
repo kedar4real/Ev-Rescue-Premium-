@@ -1,0 +1,5 @@
+export { FleetStatusWidget } from './FleetStatusWidget'
+export { ChargingStationsWidget } from './ChargingStationsWidget'
+export { EmergencyRequestsWidget } from './EmergencyRequestsWidget'
+export { RevenueChartWidget } from './RevenueChartWidget'
+export { ServiceMapWidget } from './ServiceMapWidget'

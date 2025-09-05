@@ -6,20 +6,20 @@ import { useRouter } from 'next/navigation'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { 
-  Menu, 
-  X, 
-  Battery, 
-  Bell, 
-  User, 
-  Settings, 
-  LogOut,
-  MapPin,
-  Zap,
-  Car,
-  MessageSquare,
-  BarChart3,
-  CreditCard
-} from 'lucide-react'
+  IconMenu2 as Menu, 
+  IconX as X, 
+  IconBattery as Battery, 
+  IconBell as Bell, 
+  IconUser as User, 
+  IconSettings as Settings, 
+  IconLogout as LogOut,
+  IconMapPin as MapPin,
+  IconBolt as Zap,
+  IconCar as Car,
+  IconMessageCircle as MessageSquare,
+  IconChartBar as BarChart3,
+  IconCreditCard as CreditCard
+} from '@tabler/icons-react'
 import { useAuth } from '../hooks/useAuth'
 import { notify } from './ui/notification'
 

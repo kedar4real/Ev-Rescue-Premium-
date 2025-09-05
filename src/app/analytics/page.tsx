@@ -1,21 +1,24 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
 import { Badge } from '../../components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs'
 import { 
-  TrendingUp, 
-  TrendingDown, 
-  Users, 
-  Clock, 
-  DollarSign, 
-  Zap, 
-  BarChart3,
-  Calendar,
-  Download
-} from 'lucide-react'
+  IconTrendingUp as TrendingUp, 
+  IconTrendingDown as TrendingDown, 
+  IconUsers as Users, 
+  IconClock as Clock, 
+  IconCurrencyDollar as DollarSign, 
+  IconBolt as Zap, 
+  IconChartBar as BarChart3,
+  IconCalendar as Calendar,
+  IconDownload as Download,
+  IconCpu as Performance
+} from '@tabler/icons-react'
+import { PerformanceDashboard } from '../../components/PerformanceDashboard'
 
 interface MetricCard {
   title: string
@@ -34,11 +37,11 @@ interface ServiceData {
   total: number
 }
 
-export default function AnalyticsPage() {
+export default React.memo(function AnalyticsPage() {
   const [timeRange, setTimeRange] = useState('30d')
   const [selectedMetric] = useState('all')
 
-  const metrics: MetricCard[] = [
+  const metrics: MetricCard[] = useMemo(() => [
     {
       title: 'Total Services',
       value: '1,247',
@@ -71,33 +74,33 @@ export default function AnalyticsPage() {
       icon: DollarSign,
       color: 'text-purple-500'
     }
-  ]
+  ], [])
 
-  const serviceData: ServiceData[] = [
+  const serviceData: ServiceData[] = useMemo(() => [
     { month: 'Jan', emergency: 45, charging: 32, maintenance: 28, total: 105 },
     { month: 'Feb', emergency: 52, charging: 38, maintenance: 31, total: 121 },
     { month: 'Mar', emergency: 48, charging: 35, maintenance: 29, total: 112 },
     { month: 'Apr', emergency: 61, charging: 42, maintenance: 35, total: 138 },
     { month: 'May', emergency: 55, charging: 39, maintenance: 32, total: 126 },
     { month: 'Jun', emergency: 67, charging: 45, maintenance: 38, total: 150 }
-  ]
+  ], [])
 
-  const topServices = [
+  const topServices = useMemo(() => [
     { name: 'Battery Replacement', count: 156, percentage: 12.5, status: 'completed' },
     { name: 'Tire Change', count: 134, percentage: 10.8, status: 'completed' },
     { name: 'Charging Station Repair', count: 98, percentage: 7.9, status: 'in-progress' },
     { name: 'Emergency Towing', count: 87, percentage: 7.0, status: 'completed' },
     { name: 'Software Update', count: 76, percentage: 6.1, status: 'scheduled' }
-  ]
+  ], [])
 
-  const fleetPerformance = [
+  const fleetPerformance = useMemo(() => [
     { vehicle: 'Service Van Alpha', uptime: 94.2, efficiency: 87.5, status: 'active' },
     { vehicle: 'Quick Response Scooter', uptime: 96.8, efficiency: 92.1, status: 'active' },
     { vehicle: 'Mobile Charging Unit', uptime: 89.5, efficiency: 84.3, status: 'maintenance' },
     { vehicle: 'Emergency Response Unit', uptime: 98.1, efficiency: 95.7, status: 'active' }
-  ]
+  ], [])
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = useCallback((status: string) => {
     switch (status) {
       case 'completed': return 'bg-green-500'
       case 'in-progress': return 'bg-yellow-500'
@@ -106,9 +109,9 @@ export default function AnalyticsPage() {
       case 'maintenance': return 'bg-orange-500'
       default: return 'bg-gray-500'
     }
-  }
+  }, [])
 
-  const getStatusText = (status: string) => {
+  const getStatusText = useCallback((status: string) => {
     switch (status) {
       case 'completed': return 'Completed'
       case 'in-progress': return 'In Progress'
@@ -117,7 +120,7 @@ export default function AnalyticsPage() {
       case 'maintenance': return 'Maintenance'
       default: return 'Unknown'
     }
-  }
+  }, [])
 
   return (
     <div className="min-h-screen bg-black p-6 animate-fade-in">
@@ -150,8 +153,22 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* Analytics Tabs */}
+        <Tabs defaultValue="business" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="business" className="flex items-center space-x-2">
+              <BarChart3 className="h-4 w-4" />
+              <span>Business Analytics</span>
+            </TabsTrigger>
+            <TabsTrigger value="performance" className="flex items-center space-x-2">
+              <Performance className="h-4 w-4" />
+              <span>Performance Metrics</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="business" className="space-y-8">
+            {/* Key Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric, index) => {
             const Icon = metric.icon
             return (
@@ -202,8 +219,10 @@ export default function AnalyticsPage() {
                       <div className="flex-1 flex items-center gap-2">
                         <div className="flex-1 bg-gray-700 rounded-full h-3">
                           <div 
-                            className="bg-green-500 h-3 rounded-full" 
-                            style={{ width: `${(data.emergency / Math.max(...serviceData.map(d => d.total))) * 100}%` }}
+                            className="progress-bar-emergency" 
+                            style={{ 
+                              '--progress-width': `${(data.emergency / Math.max(...serviceData.map(d => d.total))) * 100}%`
+                            } as React.CSSProperties}
                           />
                         </div>
                         <span className="text-xs text-gray-400 w-12 text-right">Emergency</span>
@@ -212,8 +231,10 @@ export default function AnalyticsPage() {
                       <div className="flex-1 flex items-center gap-2">
                         <div className="flex-1 bg-gray-700 rounded-full h-3">
                           <div 
-                            className="bg-green-500 h-3 rounded-full" 
-                            style={{ width: `${(data.charging / Math.max(...serviceData.map(d => d.total))) * 100}%` }}
+                            className="progress-bar-charging" 
+                            style={{ 
+                              '--progress-width': `${(data.charging / Math.max(...serviceData.map(d => d.total))) * 100}%`
+                            } as React.CSSProperties}
                           />
                         </div>
                         <span className="text-xs text-gray-400 w-12 text-right">Charging</span>
@@ -222,8 +243,10 @@ export default function AnalyticsPage() {
                       <div className="flex-1 flex items-center gap-2">
                         <div className="flex-1 bg-gray-700 rounded-full h-3">
                           <div 
-                            className="bg-yellow-500 h-3 rounded-full" 
-                            style={{ width: `${(data.maintenance / Math.max(...serviceData.map(d => d.total))) * 100}%` }}
+                            className="progress-bar-maintenance" 
+                            style={{ 
+                              '--progress-width': `${(data.maintenance / Math.max(...serviceData.map(d => d.total))) * 100}%`
+                            } as React.CSSProperties}
                           />
                         </div>
                         <span className="text-xs text-gray-400 w-12 text-right">Maintenance</span>
@@ -301,8 +324,10 @@ export default function AnalyticsPage() {
                           <div className="flex items-center gap-2">
                             <div className="w-20 bg-gray-700 rounded-full h-2">
                               <div 
-                                className="bg-green-500 h-2 rounded-full" 
-                                style={{ width: `${vehicle.uptime}%` }}
+                                className="progress-bar-uptime" 
+                                style={{ 
+                                  '--progress-width': `${vehicle.uptime}%`
+                                } as React.CSSProperties}
                               />
                             </div>
                             <span className="text-white text-sm">{vehicle.uptime}%</span>
@@ -312,8 +337,10 @@ export default function AnalyticsPage() {
                           <div className="flex items-center gap-2">
                             <div className="w-20 bg-gray-700 rounded-full h-2">
                               <div 
-                                className="bg-green-500 h-2 rounded-full" 
-                                style={{ width: `${vehicle.efficiency}%` }}
+                                className="progress-bar-efficiency" 
+                                style={{ 
+                                  '--progress-width': `${vehicle.efficiency}%`
+                                } as React.CSSProperties}
                               />
                             </div>
                             <span className="text-white text-sm">{vehicle.efficiency}%</span>
@@ -361,7 +388,13 @@ export default function AnalyticsPage() {
             </CardContent>
           </Card>
         </div>
+          </TabsContent>
+
+          <TabsContent value="performance">
+            <PerformanceDashboard />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )
-}
+})

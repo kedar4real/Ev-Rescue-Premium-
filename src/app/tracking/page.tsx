@@ -6,6 +6,7 @@ import { Button } from '../../components/ui/button'
 import { useAuth } from '../../hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import LiveTracker from '../../components/LiveTracker'
+import { RealTimeTracking } from '../../components/RealTimeTracking'
 import { notify } from '../../components/ui/notification'
 import { TrackingSkeleton, PageHeaderSkeleton } from '../../components/LoadingSkeleton'
 
@@ -117,34 +118,46 @@ export default function TrackingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white py-12">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(59,130,246,0.08),transparent_40%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(168,85,247,0.08),transparent_40%)]"></div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white py-12 overflow-hidden">
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(16,185,129,0.12),transparent_50%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(34,197,94,0.12),transparent_50%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(22,163,74,0.08),transparent_60%)]"></div>
+      
+      {/* Enhanced Floating Elements */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-green-500/10 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute bottom-20 right-10 w-24 h-24 bg-green-600/10 rounded-full blur-3xl animate-float-slow"></div>
+      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-emerald-400/8 rounded-full blur-2xl animate-bounce-subtle"></div>
+      <div className="absolute top-1/3 right-1/3 w-20 h-20 bg-teal-500/8 rounded-full blur-2xl animate-pulse-glow"></div>
+      
+      {/* Particle Effects */}
+      <div className="absolute top-1/4 left-1/2 w-2 h-2 bg-green-400/60 rounded-full animate-particle"></div>
+      <div className="absolute top-3/4 left-1/3 w-1 h-1 bg-emerald-300/80 rounded-full animate-particle" style={{animationDelay: '1s'}}></div>
+      <div className="absolute top-1/2 right-1/4 w-1.5 h-1.5 bg-green-300/70 rounded-full animate-particle" style={{animationDelay: '2s'}}></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
+        {/* Enhanced Header */}
+        <div className="text-center mb-12 animate-fade-in-up">
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight gradient-text">
             📍 Live Tracking
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed max-w-3xl mx-auto animate-slide-in-left">
             Monitor your emergency requests in real-time and track service providers
           </p>
         </div>
 
         {activeRequests.length === 0 ? (
-          <Card className="bg-gray-900/60 border-gray-700/30 backdrop-blur-sm">
+          <Card className="card-glass hover:border-green-500/50 animate-fade-in-up">
             <CardContent className="p-12 text-center">
-              <div className="text-6xl mb-6">🚗</div>
-              <h2 className="text-2xl font-bold text-white mb-4">No Active Requests</h2>
+              <div className="text-6xl mb-6 animate-bounce-subtle">🚗</div>
+              <h2 className="text-2xl font-bold text-white mb-4 gradient-text">No Active Requests</h2>
               <p className="text-gray-400 mb-8 max-w-md mx-auto">
                 You don&apos;t have any active emergency requests at the moment. 
                 Create a new request when you need emergency charging.
               </p>
               <Button
-                onClick={() => router.push('/emergency')}
-                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 border-0 px-8 py-4 rounded-2xl font-bold text-lg shadow-lg shadow-green-500/30 transform hover:scale-105 transition-all duration-300"
+                onClick={() => router.push('/emergency-assistance')}
+                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 border-0 px-8 py-4 rounded-2xl font-bold text-lg shadow-lg shadow-green-500/30 btn-hover liquid-btn"
               >
                 🚨 Create Emergency Request
               </Button>
@@ -222,7 +235,7 @@ export default function TrackingPage() {
 
             {/* Main Tracking Area */}
             <div className="lg:col-span-2">
-              <LiveTracker requestId={selectedRequest} />
+              <RealTimeTracking trackingId={selectedRequest} />
               
               {/* Emergency Actions */}
               <Card className="bg-gray-900/60 border-gray-700/30 backdrop-blur-sm mt-6">
@@ -238,7 +251,7 @@ export default function TrackingPage() {
                       🚨 Emergency Call
                     </Button>
                     <Button
-                      onClick={() => router.push('/emergency')}
+                      onClick={() => router.push('/emergency-assistance')}
                       variant="outline"
                       className="w-full border-green-500 text-green-400 hover:bg-green-500 hover:text-white py-4 rounded-xl font-bold text-lg"
                     >

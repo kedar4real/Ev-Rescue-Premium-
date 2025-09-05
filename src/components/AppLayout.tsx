@@ -16,7 +16,7 @@ export function AppLayout({ children }: AppLayoutProps) {
 
   const handleEmergencyRequest = () => {
     setIsChatbotOpen(false)
-    router.push('/emergency')
+    router.push('/emergency-assistance')
     analytics.trackFeatureUsed('emergency_request_from_chatbot')
   }
 

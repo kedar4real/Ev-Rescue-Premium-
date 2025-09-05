@@ -177,7 +177,7 @@ export function EnhancedMap({
         <div class="p-2 min-w-[200px]">
           <div class="flex items-center gap-2 mb-2">
             <h3 class="font-semibold text-gray-900">${station.name}</h3>
-            ${station.isVerified ? '<span class="text-blue-500 text-xs">✓ Verified</span>' : ''}
+            ${station.isVerified ? '<span class="text-green-500 text-xs">✓ Verified</span>' : ''}
           </div>
           <p class="text-sm text-gray-600 mb-2">${station.location.address}</p>
           <div class="flex items-center gap-4 text-xs text-gray-500 mb-2">
@@ -269,7 +269,7 @@ export function EnhancedMap({
       case 'service_area': return '#10b981' // green
       case 'premium_zone': return '#f59e0b' // yellow
       case 'restricted_zone': return '#ef4444' // red
-      case 'charging_hub': return '#3b82f6' // blue
+      case 'charging_hub': return '#10b981' // green
       default: return '#6b7280' // gray
     }
   }

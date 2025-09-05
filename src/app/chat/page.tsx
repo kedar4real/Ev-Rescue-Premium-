@@ -7,20 +7,20 @@ import { Input } from '../../components/ui/input'
 
 import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/avatar'
 import { 
-  MessageSquare, 
-  Send, 
-  Phone, 
-  Video, 
-  FileText, 
-  Image, 
-  Smile,
-  Clock,
-  User,
-  Bot,
-  AlertCircle,
-  CheckCircle,
-  X
-} from 'lucide-react'
+  IconMessageCircle as MessageSquare, 
+  IconSend as Send, 
+  IconPhone as Phone, 
+  IconVideo as Video, 
+  IconFileText as FileText, 
+  IconPhoto as Image, 
+  IconMoodSmile as Smile,
+  IconClock as Clock,
+  IconUser as User,
+  IconRobot as Bot,
+  IconAlertCircle as AlertCircle,
+  IconCheck as CheckCircle,
+  IconX as X
+} from '@tabler/icons-react'
 import { notify } from '../../components/ui/notification'
 import { ChatSkeleton } from '../../components/LoadingSkeleton'
 
@@ -114,10 +114,10 @@ export default function LiveChatPage() {
     const timer = setTimeout(async () => {
       setChatStatus('connected')
       setAgentInfo({
-        name: 'Sarah Johnson',
+        name: 'Sarah Chen',
         avatar: '/api/placeholder/40/40',
         status: 'online',
-        rating: 4.8
+        rating: 4.9
       })
       
       await loadChatHistory()
@@ -268,16 +268,16 @@ export default function LiveChatPage() {
     setTimeout(() => {
       setChatStatus('connected')
       setAgentInfo({
-        name: 'Mike Chen',
+        name: 'Michael Rodriguez',
         avatar: '/api/placeholder/40/40',
         status: 'online',
-        rating: 4.9
+        rating: 4.8
       })
       
       setMessages([
         {
           id: '1',
-          content: `Hi! I'm Mike, your ${supportCategories.find(c => c.id === categoryId)?.name} specialist. How can I assist you?`,
+          content: `Hi! I'm Michael, your ${supportCategories.find(c => c.id === categoryId)?.name} specialist. How can I assist you?`,
           sender: 'agent',
           timestamp: new Date(),
           type: 'text',
@@ -476,8 +476,8 @@ export default function LiveChatPage() {
                       <div className="flex items-center gap-2">
                         <div className="flex space-x-1">
                           <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.1s]"></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
                         </div>
                         <span className="text-sm text-gray-400">Agent is typing...</span>
                       </div>
@@ -512,7 +512,7 @@ export default function LiveChatPage() {
                       variant="outline"
                       size="sm"
                       onClick={() => setNewMessage("I need help with my subscription")}
-                      className="text-xs bg-blue-500/10 border-blue-500/30 text-blue-400 hover:bg-blue-500/20"
+                      className="text-xs bg-green-500/10 border-green-500/30 text-green-400 hover:bg-green-500/20"
                     >
                       💳 Account Help
                     </Button>

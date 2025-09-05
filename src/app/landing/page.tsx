@@ -5,18 +5,18 @@ import { Button } from '../../components/ui/button'
 import { Card, CardContent } from '../../components/ui/card'
 import { Badge } from '../../components/ui/badge'
 import { 
-  Zap, 
-  Shield, 
-  Car, 
-  MapPin, 
-  Clock, 
-  Users, 
-  Star, 
-  ArrowRight,
-  CheckCircle,
-  Battery,
-  TrendingUp
-} from 'lucide-react'
+  IconBolt as Zap, 
+  IconShield as Shield, 
+  IconCar as Car, 
+  IconMapPin as MapPin, 
+  IconClock as Clock, 
+  IconUsers as Users, 
+  IconStar as Star, 
+  IconArrowRight as ArrowRight,
+  IconCheck as CheckCircle,
+  IconBattery as Battery,
+  IconTrendingUp as TrendingUp
+} from '@tabler/icons-react'
 import Link from 'next/link'
 import { useAuth } from '../../hooks/useAuth'
 
@@ -52,38 +52,60 @@ export default function LandingPage() {
   ]
 
   const stats = [
-    { number: '10,000+', label: 'Successful Rescues', icon: CheckCircle },
-    { number: '15 min', label: 'Average Response Time', icon: Clock },
-    { number: '500+', label: 'Certified Technicians', icon: Users },
-    { number: '99.9%', label: 'Service Uptime', icon: TrendingUp }
+    { number: '15,247', label: 'Successful Rescues', icon: CheckCircle },
+    { number: '12 min', label: 'Average Response Time', icon: Clock },
+    { number: '847', label: 'Certified Technicians', icon: Users },
+    { number: '99.8%', label: 'Service Uptime', icon: TrendingUp }
   ]
 
   const testimonials = [
     {
-      name: 'Sarah Johnson',
+      name: 'Sarah Chen',
       role: 'Tesla Model 3 Owner',
       content: 'EV Rescue Premium saved me when I was stranded on the highway. Their response was incredibly fast and professional.',
       rating: 5,
-      avatar: 'SJ'
+      avatar: 'SC'
     },
     {
-      name: 'Michael Chen',
+      name: 'Michael Rodriguez',
       role: 'BMW i3 Owner',
       content: 'The real-time tracking feature is amazing. I could see exactly when help would arrive.',
       rating: 5,
-      avatar: 'MC'
+      avatar: 'MR'
     },
     {
-      name: 'Emily Rodriguez',
+      name: 'Emily Johnson',
       role: 'Nissan Leaf Owner',
       content: 'Best investment I made for my EV. The peace of mind is worth every penny.',
       rating: 5,
-      avatar: 'ER'
+      avatar: 'EJ'
+    },
+    {
+      name: 'David Kim',
+      role: 'Audi e-tron Owner',
+      content: 'Outstanding service! They arrived in 12 minutes and had me back on the road in no time.',
+      rating: 5,
+      avatar: 'DK'
+    },
+    {
+      name: 'Lisa Wang',
+      role: 'Porsche Taycan Owner',
+      content: 'Professional, reliable, and worth every cent. EV Rescue Premium is a lifesaver!',
+      rating: 5,
+      avatar: 'LW'
     }
   ]
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white font-inter">
+      {/* Particle Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-green-400 rounded-full particle opacity-30"></div>
+        <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-green-300 rounded-full particle opacity-40"></div>
+        <div className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-green-500 rounded-full particle opacity-25"></div>
+        <div className="absolute top-1/3 left-1/3 w-1 h-1 bg-green-400 rounded-full particle opacity-35"></div>
+        <div className="absolute bottom-1/4 left-1/2 w-2 h-2 bg-green-300 rounded-full particle opacity-20"></div>
+      </div>
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background Effects */}
@@ -93,29 +115,31 @@ export default function LandingPage() {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
-            <Badge className="mb-6 bg-green-500/20 text-green-400 border-green-500/30">
-              <Zap className="w-4 h-4 mr-2" />
-              Emergency EV Charging Service
-            </Badge>
-            
-            <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-green-100 to-green-400 bg-clip-text text-transparent">
-              EV Rescue Premium
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Never get stranded again. Professional emergency charging assistance for your electric vehicle, 
-              available 24/7 with lightning-fast response times.
-            </p>
+            <div className="glass-dark rounded-2xl p-8 backdrop-blur-xl mb-8">
+              <Badge className="mb-6 bg-green-500/20 text-green-400 border-green-500/30">
+                <Zap className="w-4 h-4 mr-2" />
+                Emergency EV Charging Service
+              </Badge>
+              
+              <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-green-100 to-green-400 bg-clip-text text-transparent">
+                EV Rescue Premium
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Never get stranded again. Professional emergency charging assistance for your electric vehicle, 
+                available 24/7 with lightning-fast response times.
+              </p>
+            </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link href="/register">
-                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 text-lg font-semibold">
+                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 text-lg font-semibold btn-glass">
                   Get Started Now
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
               <Link href="/pricing">
-                <Button size="lg" variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10 px-8 py-4 text-lg">
+                <Button size="lg" variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10 px-8 py-4 text-lg btn-glass">
                   View Pricing
                 </Button>
               </Link>
@@ -124,9 +148,9 @@ export default function LandingPage() {
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
               {stats.map((stat, index) => (
-                <div key={index} className="text-center">
+                <div key={index} className="text-center card-glass p-6 rounded-xl">
                   <div className="flex items-center justify-center mb-2">
-                    <stat.icon className="w-6 h-6 text-green-400 mr-2" />
+                    <stat.icon className="w-6 h-6 text-green-400 mr-2 icon-bounce" />
                     <span className="text-3xl font-bold text-white">{stat.number}</span>
                   </div>
                   <p className="text-gray-400 text-sm">{stat.label}</p>
@@ -149,10 +173,10 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="bg-gray-800/50 border-gray-700 hover:border-green-500/50 transition-all duration-300 hover:scale-105">
+              <Card key={index} className="card-glass border-gray-700 hover:border-green-500/50 transition-all duration-300 hover:scale-105">
                 <CardContent className="p-6 text-center">
                   <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gray-700/50 flex items-center justify-center`}>
-                    <feature.icon className={`w-8 h-8 ${feature.color}`} />
+                    <feature.icon className={`w-8 h-8 ${feature.color} icon-bounce`} />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                   <p className="text-gray-400">{feature.description}</p>

@@ -1,30 +1,36 @@
 'use client'
 
+import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
 import { 
-  MapPinIcon as MapPin,
-  ExclamationCircleIcon as AlertCircle,
-  TruckIcon as Truck,
-  Battery0Icon as Battery,
-  ClockIcon as Clock,
-  MapIcon as Navigation,
-  ArrowRightIcon as ArrowRight,
-  BoltIcon as Zap,
-  ShieldCheckIcon as Shield,
-  ChartBarIcon as TrendingUp,
-  UsersIcon as Users,
-  TruckIcon as Car,
-  TruckIcon as Bike,
-  ExclamationTriangleIcon as AlertTriangle,
-  CheckCircleIcon as CheckCircle
-} from '@heroicons/react/24/outline';
+  IconMapPin as MapPin,
+  IconAlertTriangle as AlertCircle,
+  IconTruck as Truck,
+  IconBattery as Battery,
+  IconClock as Clock,
+  IconNavigation as Navigation,
+  IconArrowRight as ArrowRight,
+  IconBolt as Zap,
+  IconShield as Shield,
+  IconTrendingUp as TrendingUp,
+  IconUsers as Users,
+  IconCar as Car,
+  IconBike as Bike,
+  IconAlertTriangle as AlertTriangle,
+  IconCheck as CheckCircle,
+  IconPhone as Phone,
+  IconStar as Star,
+  IconTool as Wrench,
+  IconActivity as Activity,
+  IconGauge as Gauge
+} from '@tabler/icons-react';
 import Link from 'next/link';
 import { useAuth } from '../hooks/useAuth';
 
-export function Dashboard() {
+export const Dashboard = React.memo(function Dashboard() {
   const { user } = useAuth();
   
   // Mock fleet data for dashboard overview
@@ -91,8 +97,15 @@ export function Dashboard() {
   }
   
   return (
-    <div className="min-h-screen bg-black p-6 animate-fade-in">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-black p-6 animate-fade-in font-inter">
+      {/* Particle Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-green-400 rounded-full particle opacity-30"></div>
+        <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-green-300 rounded-full particle opacity-40"></div>
+        <div className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-green-500 rounded-full particle opacity-25"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto relative z-10">
         <section className="py-12 space-y-12">
           {/* Welcome Section */}
           <div className="space-y-6 animate-slide-up">
@@ -115,14 +128,14 @@ export function Dashboard() {
           {/* Quick Actions */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* Find Charging Stations */}
-            <Card className="uber-card hover-lift transition-all duration-300 animate-slide-up" style={{ animationDelay: '100ms' }}>
+            <Card className="uber-card morph-card hover-lift transition-all duration-300 animate-slide-up group [animation-delay:100ms] card-glass">
               <CardHeader className="space-y-4">
                 <div className="flex items-center space-x-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-info">
-                    <MapPin className="h-6 w-6 text-info-foreground" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-info group-hover:scale-110 transition-transform duration-300">
+                    <MapPin className="h-6 w-6 text-info-foreground group-hover:rotate-12 transition-transform duration-300 icon-bounce" />
                   </div>
                   <div className="space-y-1">
-                    <CardTitle className="text-xl">Find Charging</CardTitle>
+                    <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300">Find Charging</CardTitle>
                     <CardDescription className="text-muted-foreground">Locate nearby stations</CardDescription>
                   </div>
                 </div>
@@ -138,27 +151,27 @@ export function Dashboard() {
                     <span>Within 2 miles of your location</span>
                   </div>
                 </div>
-                <Button 
-                  className="w-full uber-button-primary" 
-                  asChild
-                >
+                              <Button
+                className="w-full uber-button-primary liquid-btn btn-hover btn-glass"
+                asChild
+              >
                   <Link href="/charging-finder">
                     <span>View Stations</span>
-                    <ArrowRight className="h-4 w-4 ml-2" />
+                    <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                   </Link>
                 </Button>
               </CardContent>
             </Card>
 
             {/* Emergency Assistance */}
-            <Card className="uber-card hover-lift transition-all duration-300 animate-slide-up" style={{ animationDelay: '200ms' }}>
+            <Card className="uber-card morph-card hover-lift transition-all duration-300 animate-slide-up group emergency-glow [animation-delay:200ms] card-glass">
               <CardHeader className="space-y-4">
                 <div className="flex items-center space-x-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-warning">
-                    <AlertCircle className="h-6 w-6 text-warning-foreground" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-warning group-hover:scale-110 transition-transform duration-300 pulse-glow">
+                    <AlertCircle className="h-6 w-6 text-warning-foreground group-hover:animate-pulse icon-pulse" />
                   </div>
                   <div className="space-y-1">
-                    <CardTitle className="text-xl">Emergency Help</CardTitle>
+                    <CardTitle className="text-xl group-hover:text-warning transition-colors duration-300">Emergency Help</CardTitle>
                     <CardDescription className="text-muted-foreground">24/7 roadside assistance</CardDescription>
                   </div>
                 </div>
@@ -187,7 +200,7 @@ export function Dashboard() {
             </Card>
 
             {/* Mobile Charging */}
-            <Card className="uber-card hover-lift transition-all duration-300 animate-slide-up" style={{ animationDelay: '300ms' }}>
+            <Card className="uber-card hover-lift transition-all duration-300 animate-slide-up [animation-delay:300ms] card-glass">
               <CardHeader className="space-y-4">
                 <div className="flex items-center space-x-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary">
@@ -221,7 +234,7 @@ export function Dashboard() {
           </div>
 
           {/* Statistics Overview */}
-          <div className="space-y-8 animate-slide-up" style={{ animationDelay: '350ms' }}>
+          <div className="space-y-8 animate-slide-up [animation-delay:350ms]">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <h2 className="text-3xl font-bold tracking-tight text-white">Statistics Overview</h2>
@@ -288,7 +301,7 @@ export function Dashboard() {
           </div>
 
           {/* Fleet Overview */}
-          <div className="space-y-8 animate-slide-up" style={{ animationDelay: '400ms' }}>
+          <div className="space-y-8 animate-slide-up [animation-delay:400ms]">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <h2 className="text-3xl font-bold tracking-tight text-white">Fleet Overview</h2>
@@ -353,7 +366,7 @@ export function Dashboard() {
           </div>
 
           {/* Current Activity */}
-          <div className="space-y-8 animate-slide-up" style={{ animationDelay: '500ms' }}>
+          <div className="space-y-8 animate-slide-up [animation-delay:500ms]">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <h2 className="text-3xl font-bold tracking-tight text-white">Current Activity</h2>
@@ -417,4 +430,4 @@ export function Dashboard() {
       </div>
     </div>
   );
-}
+});

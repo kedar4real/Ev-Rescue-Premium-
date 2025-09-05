@@ -9,6 +9,11 @@ import { AuthProvider } from "../components/providers/AuthProvider";
 import { UXFeedbackProvider } from "../components/ui/ux-feedback";
 import { AppLayout } from "../components/AppLayout";
 
+import { Toaster } from "../components/ui/use-toast";
+import { ErrorBoundary } from "../components/ErrorBoundary";
+import { AnalyticsTracker } from "../components/AnalyticsTracker";
+import { OfflineIndicator } from "../components/OfflineIndicator";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -34,26 +39,31 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased emergency-bg`}
       >
-        <AuthProvider>
-          <UXFeedbackProvider>
-            <SidebarProvider>
-              <AppLayout>
-                <div className="flex h-screen overflow-hidden">
-                  {/* Sidebar - always visible on desktop */}
-                  <Sidebar />
-                  {/* Main content area */}
-                  <div className="flex-1 flex flex-col min-w-0 relative">
-                    <Header />
-                    <main className="flex-1 overflow-auto p-4">
-                      {children}
-                    </main>
+        <ErrorBoundary>
+          <AuthProvider>
+            <UXFeedbackProvider>
+              <SidebarProvider>
+                <AppLayout>
+                  <div className="flex h-screen overflow-hidden">
+                    {/* Sidebar - always visible on desktop */}
+                    <Sidebar />
+                    {/* Main content area */}
+                    <div className="flex-1 flex flex-col min-w-0 relative">
+                      <Header />
+                      <main className="flex-1 overflow-auto p-4">
+                        {children}
+                      </main>
+                    </div>
                   </div>
-                </div>
-              </AppLayout>
-            </SidebarProvider>
-          </UXFeedbackProvider>
-        </AuthProvider>
-        <NotificationContainer />
+                </AppLayout>
+              </SidebarProvider>
+            </UXFeedbackProvider>
+            <NotificationContainer />
+            <Toaster />
+            <AnalyticsTracker />
+            <OfflineIndicator />
+          </AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

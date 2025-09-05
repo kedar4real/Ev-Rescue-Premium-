@@ -1,4 +1,5 @@
 import { DatabaseService } from './database'
+import { withFirebaseErrorHandling } from './firebase-error-handler'
 import { auth } from './firebase'
 
 // Analytics Event Types
@@ -26,7 +27,7 @@ export interface AnalyticsEventData {
   ip?: string
 }
 
-class AnalyticsService {
+export class AnalyticsService {
   private sessionId: string
   private userId: string | null = null
 
@@ -51,10 +52,50 @@ class AnalyticsService {
   // Track events
   async track(event: AnalyticsEvent, properties: Record<string, any> = {}) {
     try {
+      // Skip analytics on server side
+      if (typeof window === 'undefined') {
+        console.log('Skipping analytics tracking - running on server side:', event)
+        return
+      }
+
+      // Skip analytics if Firebase is not initialized yet
+      const { FirebaseConnectionManager } = await import('./firebase')
+      if (!FirebaseConnectionManager.isFirebaseInitialized()) {
+        console.log('Skipping analytics tracking - Firebase not initialized:', event)
+        return
+      }
+
+      // Check if user is authenticated before attempting any analytics operations
+      const { canAccessFirestore, isOnline } = await import('./firebase-permissions')
+      if (!canAccessFirestore()) {
+        console.log('Skipping analytics tracking - user not authenticated:', event)
+        return
+      }
+
+      // In offline mode, skip analytics to avoid errors
+      if (!isOnline()) {
+        console.log('Skipping analytics tracking - offline mode:', event)
+        return
+      }
+
+      // Additional check: ensure we have a valid user ID
+      const userId = this.userId || properties.userId
+      if (!userId || userId === 'system') {
+        console.log('Skipping analytics tracking - no valid user ID:', event)
+        return
+      }
+
+
+
+      // Sanitize properties to remove undefined values
+      const sanitizedProperties = Object.fromEntries(
+        Object.entries(properties).filter(([_, value]) => value !== undefined)
+      )
+
       const eventData: AnalyticsEventData = {
         event,
-        userId: this.userId || undefined,
-        properties,
+        userId,
+        properties: sanitizedProperties,
         timestamp: new Date(),
         sessionId: this.sessionId,
         page: typeof window !== 'undefined' ? window.location.pathname : undefined,
@@ -65,19 +106,37 @@ class AnalyticsService {
       // Send to your analytics service (Firebase Analytics, Mixpanel, etc.)
       await this.sendToAnalytics(eventData)
 
-      // Store in local database for custom analytics
-      await this.storeEvent(eventData)
+      // Store in local database for custom analytics (only if all conditions are met)
+      try {
+        await this.storeEvent(eventData)
+      } catch (storeError) {
+        // Don't let storage errors break the main analytics flow
+        console.warn('Analytics storage failed, but continuing with external analytics:', storeError)
+      }
 
     } catch (error) {
-      console.error('Error tracking analytics event:', error)
+      // Provide more detailed error information
+      const errorInfo = {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        code: (error as any)?.code || 'unknown',
+        event,
+        userId: this.userId || properties.userId,
+        timestamp: new Date().toISOString()
+      }
+      console.error('Error tracking analytics event:', errorInfo)
     }
   }
 
   // Page view tracking
   async trackPageView(page: string, properties: Record<string, any> = {}) {
+    // Sanitize properties to remove undefined values
+    const sanitizedProperties = Object.fromEntries(
+      Object.entries(properties).filter(([_, value]) => value !== undefined)
+    )
+    
     await this.track('page_view', {
       page,
-      ...properties
+      ...sanitizedProperties
     })
   }
 
@@ -219,18 +278,69 @@ class AnalyticsService {
   // Store event in local database
   private async storeEvent(eventData: AnalyticsEventData) {
     try {
-      // Store in Firestore for custom analytics
-      await DatabaseService.createNotification({
-        userId: eventData.userId || 'system',
-        type: 'system',
-        title: `Analytics: ${eventData.event}`,
-        message: JSON.stringify(eventData.properties),
-        isRead: false,
-        priority: 'low',
-        data: eventData
-      })
+      // Skip if Firebase is not initialized yet
+      const { FirebaseConnectionManager } = await import('./firebase')
+      if (!FirebaseConnectionManager.isFirebaseInitialized()) {
+        console.log('Skipping analytics storage - Firebase not initialized:', eventData.event)
+        return
+      }
+
+      // Only store analytics events if we have a valid userId
+      if (!eventData.userId || eventData.userId === 'system') {
+        console.log('Skipping analytics storage - no valid userId:', eventData.event)
+        return
+      }
+
+      // Check if user is authenticated before attempting Firestore operations
+      const { canAccessFirestore, isOnline } = await import('./firebase-permissions')
+      if (!canAccessFirestore()) {
+        console.log('Skipping analytics storage - user not authenticated:', eventData.event)
+        return
+      }
+
+      // In offline mode, skip analytics storage to avoid errors
+      if (!isOnline()) {
+        console.log('Skipping analytics storage - offline mode:', eventData.event)
+        return
+      }
+
+      // Sanitize the data object to remove any undefined values
+      const sanitizedData = {
+        ...eventData,
+        properties: Object.fromEntries(
+          Object.entries(eventData.properties || {}).filter(([_, value]) => value !== undefined)
+        )
+      }
+
+      // Store in Firestore for custom analytics with error handling
+      try {
+        await withFirebaseErrorHandling(
+          () => DatabaseService.createNotification({
+            userId: eventData.userId,
+            type: 'system',
+            title: `Analytics: ${eventData.event}`,
+            message: JSON.stringify(sanitizedData.properties),
+            isRead: false,
+            priority: 'low',
+            data: sanitizedData
+          }),
+          'Analytics event storage'
+        )
+      } catch (firebaseError) {
+        // If Firebase operations fail, just log and continue
+        console.warn('Firebase analytics storage failed:', firebaseError)
+        return // Exit gracefully without throwing
+      }
     } catch (error) {
-      console.error('Error storing analytics event:', error)
+      // Provide more detailed error information
+      const errorInfo = {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        code: (error as any)?.code || 'unknown',
+        event: eventData.event,
+        userId: eventData.userId,
+        timestamp: new Date().toISOString()
+      }
+      console.error('Error storing analytics event:', errorInfo)
     }
   }
 

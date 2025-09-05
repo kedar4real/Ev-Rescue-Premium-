@@ -296,7 +296,7 @@ export function AIChatbot({ isOpen, onClose, onEmergencyRequest, onLocationReque
                   }`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
                       message.type === 'user' 
-                        ? 'bg-blue-500' 
+                        ? 'bg-green-500' 
                         : 'bg-green-500'
                     }`}>
                       {message.type === 'user' ? (
@@ -307,7 +307,7 @@ export function AIChatbot({ isOpen, onClose, onEmergencyRequest, onLocationReque
                     </div>
                     <div className={`rounded-lg p-3 ${
                       message.type === 'user'
-                        ? 'bg-blue-500 text-white'
+                        ? 'bg-green-500 text-white'
                         : 'bg-gray-800 text-gray-100'
                     }`}>
                       <p className="text-sm">{message.content}</p>

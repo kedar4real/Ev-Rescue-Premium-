@@ -65,9 +65,9 @@ export default function Chat({ requestId, providerId, providerName, isOpen, onCl
         {
           id: '2',
           senderId: 'provider1',
-          senderName: 'Elite EV Rescue',
+          senderName: 'EV Rescue Premium',
           senderType: 'provider',
-          message: 'Hello! We\'re on our way to your location. ETA: 15 minutes. Please confirm your exact location.',
+          message: 'Hello! We\'re on our way to your location. ETA: 12 minutes. Please confirm your exact location.',
           timestamp: new Date(Date.now() - 240000),
           isRead: true
         },
@@ -83,9 +83,9 @@ export default function Chat({ requestId, providerId, providerName, isOpen, onCl
         {
           id: '4',
           senderId: 'provider1',
-          senderName: 'Elite EV Rescue',
+          senderName: 'EV Rescue Premium',
           senderType: 'provider',
-          message: 'Perfect! We can see your location. Our mobile unit is equipped with a 75kWh charger. What\'s your vehicle type?',
+          message: 'Perfect! We can see your location. Our mobile unit is equipped with a 75kWh fast charger. What\'s your vehicle type?',
           timestamp: new Date(Date.now() - 120000),
           isRead: true
         },
@@ -353,8 +353,8 @@ export default function Chat({ requestId, providerId, providerName, isOpen, onCl
                         <span className="text-sm">Typing</span>
                         <div className="flex gap-1">
                           <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.1s]"></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
                         </div>
                       </div>
                     </div>

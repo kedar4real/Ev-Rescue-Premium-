@@ -15,6 +15,7 @@ import {
   Timestamp 
 } from 'firebase/firestore'
 import { db } from './firebase'
+import { canAccessFirestore, getCurrentUserId } from './firebase-permissions'
 
 // Global notification creation counter for debugging
 let notificationCreationCount = 0
@@ -24,17 +25,20 @@ const originalAddDoc = addDoc
 const interceptedAddDoc = async (collectionRef: any, data: any) => {
   // Check if this is a notification collection
   if (collectionRef.path && collectionRef.path.includes('notifications')) {
-    console.error('🚨 DIRECT NOTIFICATION CREATION DETECTED!', {
+    console.warn('🔍 Notification creation detected:', {
       path: collectionRef.path,
-      data: data,
-      stackTrace: new Error().stack
+      userId: data.userId,
+      type: data.type,
+      title: data.title
     })
     
     // Validate the data before proceeding
     if (!data.userId) {
+      console.error('❌ Notification creation blocked: userId is required', data)
       throw new Error('Direct notification creation blocked: userId is required')
     }
     if (typeof data.userId !== 'string' || data.userId.trim() === '') {
+      console.error('❌ Notification creation blocked: userId must be a non-empty string', data)
       throw new Error('Direct notification creation blocked: userId must be a non-empty string')
     }
   }
@@ -331,6 +335,12 @@ export class DatabaseService {
 
   // Notification Operations
   static async createNotification(notificationData: Omit<Notification, 'id' | 'createdAt'>): Promise<string> {
+    // Check if user has permission to access Firestore
+    if (!canAccessFirestore()) {
+      console.warn('Cannot create notification: User not authenticated')
+      throw new Error('User must be authenticated to create notifications')
+    }
+
     notificationCreationCount++
     const creationId = notificationCreationCount
     
@@ -339,8 +349,7 @@ export class DatabaseService {
       userId: notificationData.userId,
       type: notificationData.type,
       title: notificationData.title,
-      message: notificationData.message,
-      stackTrace: new Error().stack
+      message: notificationData.message
     })
 
     // Validate required fields

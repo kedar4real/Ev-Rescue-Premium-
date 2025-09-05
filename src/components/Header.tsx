@@ -3,19 +3,21 @@
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { 
-  BoltIcon as Zap,
-  Bars3Icon as Menu,
-  BellIcon as Bell,
-  UserIcon as User,
-  MapPinIcon as MapPin,
-  ExclamationCircleIcon as AlertCircle,
-  TruckIcon as Truck,
-  Battery0Icon as Battery,
-  ArrowRightOnRectangleIcon as LogOut,
-  Cog6ToothIcon as Settings,
-  ChevronDownIcon as ChevronDown
-} from '@heroicons/react/24/outline'
+import {
+  IconBolt as Zap,
+  IconMenu2 as Menu,
+  IconBell as Bell,
+  IconUser as User,
+  IconMapPin as MapPin,
+  IconAlertTriangle as AlertCircle,
+  IconTruck as Truck,
+  IconBattery as Battery,
+  IconLogout as LogOut,
+  IconSettings as Settings,
+  IconChevronDown as ChevronDown
+} from '@tabler/icons-react'
+import { ThemeToggle } from './ThemeToggle'
+import { ConnectionStatus } from './OfflineIndicator'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -120,6 +122,12 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-4">
+          {/* Connection Status */}
+          <ConnectionStatus />
+          
+          {/* Theme Toggle */}
+          <ThemeToggle />
+          
           {/* Notifications */}
           <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
             <Bell className="h-5 w-5" />

@@ -11,7 +11,13 @@ import Link from 'next/link'
 
 export default function DashboardPage() {
   const { user, isAuthenticated } = useAuth()
-  const { userData, emergencyRequests, fleetVehicles, notifications, loading } = useRealTimeData()
+  const realTimeData = useRealTimeData()
+  // Mock data for now since useRealTimeData doesn't return these properties
+  const userData = { firstName: user?.firstName, role: 'user', subscription: { plan: 'premium' } }
+  const emergencyRequests: any[] = []
+  const fleetVehicles: any[] = []
+  const notifications: any[] = []
+  const loading = false
   const [activeTab, setActiveTab] = useState('overview')
 
   useEffect(() => {
@@ -55,96 +61,114 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white py-12">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(34,197,94,0.08),transparent_40%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(22,163,74,0.08),transparent_40%)]"></div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white py-12 overflow-hidden">
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(34,197,94,0.12),transparent_50%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(22,163,74,0.12),transparent_50%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.08),transparent_60%)]"></div>
       
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 bg-green-500/8 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-24 h-24 bg-green-600/8 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      {/* Enhanced Floating Elements with Better Animations */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-green-500/10 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute bottom-20 right-10 w-24 h-24 bg-green-600/10 rounded-full blur-3xl animate-float-slow"></div>
+      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-emerald-400/8 rounded-full blur-2xl animate-bounce-subtle"></div>
+      <div className="absolute top-1/3 right-1/3 w-20 h-20 bg-teal-500/8 rounded-full blur-2xl animate-pulse-glow"></div>
+      
+      {/* Particle Effects */}
+      <div className="absolute top-1/4 left-1/2 w-2 h-2 bg-green-400/60 rounded-full animate-particle"></div>
+      <div className="absolute top-3/4 left-1/3 w-1 h-1 bg-emerald-300/80 rounded-full animate-particle" style={{animationDelay: '1s'}}></div>
+      <div className="absolute top-1/2 right-1/4 w-1.5 h-1.5 bg-green-300/70 rounded-full animate-particle" style={{animationDelay: '2s'}}></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Enhanced Header */}
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-            Welcome back, {userData?.firstName || user?.firstName || 'User'}!
+        {/* Enhanced Header with Animations */}
+        <div className="mb-12 animate-fade-in-up">
+          <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight gradient-text">
+            Welcome back, {userData?.firstName || user?.firstName || 'User'}! 👋
           </h1>
-          <p className="text-xl text-gray-300 font-light leading-relaxed">Manage your emergency charging requests and account</p>
+          <p className="text-xl text-gray-300 font-light leading-relaxed animate-slide-in-left">
+            Manage your emergency charging requests and account with ease
+          </p>
         </div>
 
-        {/* Enhanced Quick Actions */}
+        {/* Enhanced Quick Actions with Staggered Animations */}
         <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <Card className="group hover:shadow-2xl transition-all duration-500 cursor-pointer bg-gray-900/60 border-gray-700/30 hover:bg-gray-800/50 hover:border-gray-600/50 hover:scale-105 backdrop-blur-sm">
+          <Card className="group hover:shadow-2xl transition-all duration-500 cursor-pointer card-glass hover:border-green-500/50 hover:scale-105 animate-slide-in-left">
             <CardContent className="p-8 text-center">
-              <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🚨</div>
+              <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 animate-bounce-subtle">🚨</div>
               <h3 className="text-xl font-bold mb-3 text-white tracking-tight">Emergency Request</h3>
               <p className="text-base text-gray-300 mb-6 font-medium">Need immediate charging help?</p>
-              <Link href="/emergency">
-                <Button variant="emergency" className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 border-0 rounded-2xl py-3 text-lg font-semibold shadow-2xl shadow-red-500/30">
+              <Link href="/emergency-assistance">
+                <Button className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 border-0 rounded-2xl py-3 text-lg font-semibold shadow-2xl shadow-red-500/30 btn-hover liquid-btn">
                   Request Help
                 </Button>
               </Link>
             </CardContent>
           </Card>
 
-          <Card className="group hover:shadow-2xl transition-all duration-500 cursor-pointer bg-gray-900/60 border-gray-700/30 hover:bg-gray-800/50 hover:border-gray-600/50 hover:scale-105 backdrop-blur-sm">
+          <Card className="group hover:shadow-2xl transition-all duration-500 cursor-pointer card-glass hover:border-green-500/50 hover:scale-105 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
             <CardContent className="p-8 text-center">
-              <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🔋</div>
+              <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 animate-float">🔋</div>
               <h3 className="text-xl font-bold mb-3 text-white tracking-tight">Find Chargers</h3>
               <p className="text-base text-gray-300 mb-6 font-medium">Locate nearby charging stations</p>
-              <Button variant="outline" className="w-full border-2 border-gray-600/50 text-gray-300 hover:bg-gray-700/50 hover:text-white hover:border-gray-500 rounded-2xl py-3 text-lg font-semibold transition-all duration-300">
-                Search Now
-              </Button>
+              <Link href="/charging-finder">
+                <Button className="w-full border-green-500 text-green-400 hover:bg-green-500 hover:text-white rounded-2xl py-3 text-lg font-semibold btn-hover liquid-btn">
+                  Search Now
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
-          <Card className="group hover:shadow-2xl transition-all duration-500 cursor-pointer bg-gray-900/60 border-gray-700/30 hover:bg-gray-800/50 hover:border-gray-600/50 hover:scale-105 backdrop-blur-sm">
+          <Card className="group hover:shadow-2xl transition-all duration-500 cursor-pointer card-glass hover:border-green-500/50 hover:scale-105 animate-slide-in-right" style={{animationDelay: '0.4s'}}>
             <CardContent className="p-8 text-center">
-              <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">👤</div>
+              <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">👤</div>
               <h3 className="text-xl font-bold mb-3 text-white tracking-tight">Profile</h3>
               <p className="text-base text-gray-300 mb-6 font-medium">Update your information</p>
-              <Button variant="outline" className="w-full border-2 border-gray-600/50 text-gray-300 hover:bg-gray-700/50 hover:text-white hover:border-gray-500 rounded-2xl py-3 text-lg font-semibold transition-all duration-300">
-                Edit Profile
-              </Button>
+              <Link href="/profile">
+                <Button className="w-full border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white rounded-2xl py-3 text-lg font-semibold btn-hover liquid-btn">
+                  Edit Profile
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
 
-        {/* Enhanced Stats Overview */}
+        {/* Enhanced Stats Overview with Staggered Animations */}
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           {[
             { 
               label: 'Total Requests', 
               value: emergencyRequests?.length || 0, 
               icon: '📋', 
-              color: 'from-green-900/50 to-green-800/50 border-green-700/50' 
+              color: 'from-green-900/50 to-green-800/50 border-green-700/50',
+              animation: 'animate-fade-in-up'
             },
             { 
               label: 'Active Requests', 
               value: emergencyRequests?.filter(r => ['pending', 'assigned', 'in_progress'].includes(r.status)).length || 0, 
               icon: '🔄', 
-              color: 'from-yellow-900/50 to-yellow-800/50 border-yellow-700/50' 
+              color: 'from-yellow-900/50 to-yellow-800/50 border-yellow-700/50',
+              animation: 'animate-slide-in-left'
             },
             { 
               label: 'Completed', 
               value: emergencyRequests?.filter(r => r.status === 'completed').length || 0, 
               icon: '✅', 
-              color: 'from-green-900/50 to-green-800/50 border-green-700/50' 
+              color: 'from-green-900/50 to-green-800/50 border-green-700/50',
+              animation: 'animate-fade-in-up'
             },
             { 
               label: 'Subscription', 
               value: userData?.subscription?.plan?.toUpperCase() || 'BASIC', 
               icon: '💎', 
-              color: 'from-purple-900/50 to-purple-800/50 border-purple-700/50' 
+              color: 'from-purple-900/50 to-purple-800/50 border-purple-700/50',
+              animation: 'animate-slide-in-right'
             }
           ].map((stat, index) => (
-            <Card key={index} className="text-center bg-gray-900/40 border-gray-700/30 backdrop-blur-sm hover:bg-gray-800/50 hover:border-gray-600/50 transition-all duration-300 hover:scale-105">
+            <Card key={index} className={`text-center card-glass hover:border-green-500/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl ${stat.animation}`} style={{animationDelay: `${index * 0.1}s`}}>
               <CardContent className="p-8">
-                <div className={`w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-r ${stat.color} flex items-center justify-center text-3xl shadow-2xl`}>
+                <div className={`w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-r ${stat.color} flex items-center justify-center text-3xl shadow-2xl hover:scale-110 transition-transform duration-300 animate-bounce-subtle`}>
                   {stat.icon}
                 </div>
-                <div className="text-3xl font-black text-white mb-2 tracking-tight">{stat.value}</div>
+                <div className="text-3xl font-black text-white mb-2 tracking-tight gradient-text">{stat.value}</div>
                 <div className="text-sm text-gray-300 font-medium uppercase tracking-wider">{stat.label}</div>
               </CardContent>
             </Card>

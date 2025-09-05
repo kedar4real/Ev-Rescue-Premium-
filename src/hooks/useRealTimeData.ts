@@ -1,121 +1,155 @@
-import { useState, useEffect } from 'react'
-import { DatabaseService, type User, type EmergencyRequest, type FleetVehicle, type Notification } from '../lib/database'
-import { useAuth } from './useAuth'
+'use client'
 
-export function useRealTimeData() {
-  const { user } = useAuth()
-  const [userData, setUserData] = useState<User | null>(null)
-  const [emergencyRequests, setEmergencyRequests] = useState<EmergencyRequest[]>([])
-  const [fleetVehicles, setFleetVehicles] = useState<FleetVehicle[]>([])
-  const [notifications, setNotifications] = useState<Notification[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+import { useState, useEffect, useCallback } from 'react'
+
+interface RealTimeData {
+  timestamp: number
+  value: number
+  change: number
+}
+
+interface UseRealTimeDataOptions {
+  interval?: number
+  maxDataPoints?: number
+  initialValue?: number
+  volatility?: number
+}
+
+export function useRealTimeData(options: UseRealTimeDataOptions = {}) {
+  const {
+    interval = 5000,
+    maxDataPoints = 20,
+    initialValue = 100,
+    volatility = 0.1
+  } = options
+
+  const [data, setData] = useState<RealTimeData[]>([])
+  const [isConnected, setIsConnected] = useState(true)
+  const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
+
+  const generateNewValue = useCallback((previousValue: number): number => {
+    const change = (Math.random() - 0.5) * volatility * previousValue
+    return Math.max(0, previousValue + change)
+  }, [volatility])
+
+  const updateData = useCallback(() => {
+    setData(prevData => {
+      const lastValue = prevData.length > 0 ? prevData[prevData.length - 1].value : initialValue
+      const newValue = generateNewValue(lastValue)
+      const change = prevData.length > 0 
+        ? ((newValue - lastValue) / lastValue) * 100 
+        : 0
+
+      const newDataPoint: RealTimeData = {
+        timestamp: Date.now(),
+        value: newValue,
+        change
+      }
+
+      const updatedData = [...prevData, newDataPoint]
+      
+      // Keep only the last maxDataPoints
+      if (updatedData.length > maxDataPoints) {
+        return updatedData.slice(-maxDataPoints)
+      }
+      
+      return updatedData
+    })
+    
+    setLastUpdate(new Date())
+  }, [generateNewValue, initialValue, maxDataPoints])
 
   useEffect(() => {
-    if (!user?.id) return
+    if (!isConnected) return
 
-    const loadData = async () => {
-      try {
-        setLoading(true)
-        setError(null)
+    const intervalId = setInterval(updateData, interval)
+    
+    // Initial data point
+    updateData()
 
-        // Load user data
-        const userInfo = await DatabaseService.getUser(user.id)
-        setUserData(userInfo)
+    return () => clearInterval(intervalId)
+  }, [isConnected, interval, updateData])
 
-        // Load user's emergency requests
-        const requests = await DatabaseService.getEmergencyRequests(user.id)
-        setEmergencyRequests(requests)
+  const toggleConnection = useCallback(() => {
+    setIsConnected(prev => !prev)
+  }, [])
 
-        // Load fleet vehicles (for providers/admins)
-        if (userInfo?.role === 'provider' || userInfo?.role === 'admin') {
-          const vehicles = await DatabaseService.getFleetVehicles()
-          setFleetVehicles(vehicles)
-        }
+  const resetData = useCallback(() => {
+    setData([])
+    setLastUpdate(new Date())
+  }, [])
 
-        // Load notifications
-        const userNotifications = await DatabaseService.getUserNotifications(user.id)
-        setNotifications(userNotifications)
+  const getCurrentValue = useCallback(() => {
+    return data.length > 0 ? data[data.length - 1].value : initialValue
+  }, [data, initialValue])
 
-      } catch (err) {
-        console.error('Error loading real-time data:', err)
-        setError('Failed to load data')
-      } finally {
-        setLoading(false)
-      }
-    }
+  const getCurrentChange = useCallback(() => {
+    return data.length > 0 ? data[data.length - 1].change : 0
+  }, [data])
 
-    loadData()
+  const getAverageValue = useCallback(() => {
+    if (data.length === 0) return initialValue
+    const sum = data.reduce((acc, point) => acc + point.value, 0)
+    return sum / data.length
+  }, [data, initialValue])
 
-    // Set up real-time listeners
-    const unsubscribeRequests = DatabaseService.subscribeToEmergencyRequests((requests) => {
-      if (user?.id) {
-        const userRequests = requests.filter(req => req.userId === user.id)
-        setEmergencyRequests(userRequests)
-      }
-    })
+  const getMinValue = useCallback(() => {
+    if (data.length === 0) return initialValue
+    return Math.min(...data.map(point => point.value))
+  }, [data, initialValue])
 
-    const unsubscribeFleet = DatabaseService.subscribeToFleetVehicles((vehicles) => {
-      setFleetVehicles(vehicles)
-    })
-
-    const unsubscribeNotifications = DatabaseService.subscribeToUserNotifications(
-      user?.id || '',
-      (notifications) => {
-        setNotifications(notifications)
-      }
-    )
-
-    return () => {
-      unsubscribeRequests()
-      unsubscribeFleet()
-      unsubscribeNotifications()
-    }
-  }, [user?.id])
+  const getMaxValue = useCallback(() => {
+    if (data.length === 0) return initialValue
+    return Math.max(...data.map(point => point.value))
+  }, [data, initialValue])
 
   return {
-    userData,
-    emergencyRequests,
-    fleetVehicles,
-    notifications,
-    loading,
-    error,
-    refetch: () => {
-      if (user?.id) {
-        // Trigger data reload
-        setLoading(true)
-        // The useEffect will handle the reload
-      }
-    }
+    data,
+    isConnected,
+    lastUpdate,
+    toggleConnection,
+    resetData,
+    getCurrentValue,
+    getCurrentChange,
+    getAverageValue,
+    getMinValue,
+    getMaxValue
   }
 }
 
-export function useAnalytics() {
-  const [analytics, setAnalytics] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+// Specialized hooks for different data types
+export function useRealTimeFleetData() {
+  return useRealTimeData({
+    interval: 3000,
+    maxDataPoints: 15,
+    initialValue: 12,
+    volatility: 0.05
+  })
+}
 
-  useEffect(() => {
-    const loadAnalytics = async () => {
-      try {
-        setLoading(true)
-        
-        // Get analytics for the last 30 days
-        const endDate = new Date()
-        const startDate = new Date()
-        startDate.setDate(endDate.getDate() - 30)
-        
-        const analyticsData = await DatabaseService.getAnalytics({ start: startDate, end: endDate })
-        setAnalytics(analyticsData)
-        
-      } catch (error) {
-        console.error('Error loading analytics:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
+export function useRealTimeChargingData() {
+  return useRealTimeData({
+    interval: 2000,
+    maxDataPoints: 20,
+    initialValue: 85,
+    volatility: 0.08
+  })
+}
 
-    loadAnalytics()
-  }, [])
+export function useRealTimeEmergencyData() {
+  return useRealTimeData({
+    interval: 10000,
+    maxDataPoints: 10,
+    initialValue: 3,
+    volatility: 0.15
+  })
+}
 
-  return { analytics, loading }
+export function useRealTimeRevenueData() {
+  return useRealTimeData({
+    interval: 5000,
+    maxDataPoints: 12,
+    initialValue: 2500,
+    volatility: 0.12
+  })
 }
