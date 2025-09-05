@@ -314,18 +314,21 @@ export class AnalyticsService {
 
       // Store in Firestore for custom analytics with error handling
       try {
-        await withFirebaseErrorHandling(
-          () => DatabaseService.createNotification({
-            userId: eventData.userId,
-            type: 'system',
-            title: `Analytics: ${eventData.event}`,
-            message: JSON.stringify(sanitizedData.properties),
-            isRead: false,
-            priority: 'low',
-            data: sanitizedData
-          }),
-          'Analytics event storage'
-        )
+        // Only create notification if userId is available
+        if (eventData.userId) {
+          await withFirebaseErrorHandling(
+            () => DatabaseService.createNotification({
+              userId: eventData.userId!,
+              type: 'system',
+              title: `Analytics: ${eventData.event}`,
+              message: JSON.stringify(sanitizedData.properties),
+              isRead: false,
+              priority: 'low',
+              data: sanitizedData
+            }),
+            'Analytics event storage'
+          )
+        }
       } catch (firebaseError) {
         // If Firebase operations fail, just log and continue
         console.warn('Firebase analytics storage failed:', firebaseError)
